@@ -24,7 +24,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		A1682FA42F28CF5E00CC8FED /* danbi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = danbi.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A1682FA42F28CF5E00CC8FED /* 단비.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "단비.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1682FB82F28CF5E00CC8FED /* danbiTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = danbiTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1682FC22F28CF5F00CC8FED /* danbiUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = danbiUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -98,7 +98,7 @@
 		A1682FA52F28CF5E00CC8FED /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				A1682FA42F28CF5E00CC8FED /* danbi.app */,
+				A1682FA42F28CF5E00CC8FED /* 단비.app */,
 				A1682FB82F28CF5E00CC8FED /* danbiTests.xctest */,
 				A1682FC22F28CF5F00CC8FED /* danbiUITests.xctest */,
 			);
@@ -127,7 +127,7 @@
 			packageProductDependencies = (
 			);
 			productName = danbi;
-			productReference = A1682FA42F28CF5E00CC8FED /* danbi.app */;
+			productReference = A1682FA42F28CF5E00CC8FED /* 단비.app */;
 			productType = "com.apple.product-type.application";
 		};
 		A1682FB72F28CF5E00CC8FED /* danbiTests */ = {
@@ -291,7 +291,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"danbi/Preview Content\"";
-				DEVELOPMENT_TEAM = T6HPMD6KD3;
+				DEVELOPMENT_TEAM = WC5T233HM3;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = danbi/Info.plist;
@@ -305,8 +305,8 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.danbi;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.plant.danbi;
+				PRODUCT_NAME = "단비";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -322,7 +322,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"danbi/Preview Content\"";
-				DEVELOPMENT_TEAM = T6HPMD6KD3;
+				DEVELOPMENT_TEAM = WC5T233HM3;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = danbi/Info.plist;
@@ -336,8 +336,8 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.danbi;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.plant.danbi;
+				PRODUCT_NAME = "단비";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
