@@ -243,7 +243,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 👤 개발자
 
 **Danbi Team**
-- Email: contact@danbi.app
+- Email: essol503@gmail.com
 - Made with 🌱 by Danbi Team
 
 <br>
