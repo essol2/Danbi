@@ -7,6 +7,33 @@
 
 import SwiftUI
 import SwiftData
+import UserNotifications
+
+// AppDelegate 추가
+class AppDelegate: NSObject, UIApplicationDelegate {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+        print("🚀 앱 시작 - 알림 권한 요청 시작")
+        
+        // ⚠️ 중요: 시스템이 준비될 시간을 주기 위해 2초 딜레이
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+            print("⏰ 2초 후 - 지금 권한 요청")
+            UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
+                DispatchQueue.main.async {
+                    if granted {
+                        print("✅ 알림 권한 허용됨 (AppDelegate)")
+                    } else {
+                        print("❌ 알림 권한 거부됨 (AppDelegate)")
+                    }
+                    if let error = error {
+                        print("⚠️ 알림 권한 오류 (AppDelegate): \(error.localizedDescription)")
+                    }
+                }
+            }
+        }
+        
+        return true
+    }
+}
 
 //@main
 //struct danbiApp: App {
@@ -37,10 +64,8 @@ import SwiftData
 
 @main
 struct danbiApp: App {
-    init() {
-        // 알림 권한 요청
-        NotificationManager.shared.requestAuthorization()
-    }
+    // AppDelegate 연결
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     
     var body: some Scene {
         WindowGroup {

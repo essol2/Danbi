@@ -150,7 +150,9 @@ struct ContentView: View {
                                 .frame(width: 44, height: 44)
                         }
                     }
+                    .padding(.horizontal, 20)
                     .padding(.top, 60)
+                    
                     
                     // No data content
                     NoDataView()

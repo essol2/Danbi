@@ -28,12 +28,12 @@ struct SettingsView: View {
 //                            Image(systemName: "leaf.fill")
 //                                .font(.system(size: 28))
 //                                .foregroundColor(Color(red: 0.55, green: 0.65, blue: 0.55))
-//                            
+//
 //                            Text("Danbi")
 //                                .font(.system(size: 32, weight: .bold))
 //                                .foregroundColor(.black)
 //                        }
-//                        
+//
 //                        Text("Manage your preferences")
 //                            .font(.system(size: 16))
 //                            .foregroundColor(Color(red: 0.6, green: 0.6, blue: 0.6))
@@ -52,19 +52,19 @@ struct SettingsView: View {
 //                                        .font(.system(size: 28))
 //                                        .foregroundColor(.white)
 //                                )
-//                            
+//
 //                            VStack(alignment: .leading, spacing: 4) {
 //                                Text("식물 예호가")
 //                                    .font(.system(size: 18, weight: .semibold))
 //                                    .foregroundColor(.black)
-//                                
+//
 //                                Text("내 정원에 \(plants.count)개의 식물")
 //                                    .font(.system(size: 15))
 //                                    .foregroundColor(Color(red: 0.6, green: 0.6, blue: 0.6))
 //                            }
-//                            
+//
 //                            Spacer()
-//                            
+//
 //                            Image(systemName: "chevron.right")
 //                                .foregroundColor(Color(red: 0.8, green: 0.8, blue: 0.8))
 //                        }
@@ -114,35 +114,35 @@ struct SettingsView: View {
                     }
                     .padding(.top, 60)
                     
-                    // 테마 섹션
-                    VStack(alignment: .leading, spacing: 8) {
-                        Text("테마")
-                            .font(.system(size: 14, weight: .medium))
-                            .foregroundColor(Color(red: 0.6, green: 0.6, blue: 0.6))
-                            .padding(.horizontal, 24)
-                        
-                        HStack {
-                            Image(systemName: "moon.fill")
-                                .font(.system(size: 20))
-                                .foregroundColor(Color(red: 0.7, green: 0.7, blue: 0.7))
-                                .frame(width: 40)
-                            
-                            Text("다크 모드")
-                                .font(.system(size: 16))
-                                .foregroundColor(.black)
-                            
-                            Spacer()
-                            
-                            Toggle("", isOn: $darkModeEnabled)
-                                .labelsHidden()
-                                .tint(Color(red: 0.55, green: 0.65, blue: 0.55))
-                        }
-                        .padding(.horizontal, 20)
-                        .padding(.vertical, 16)
-                        .background(Color.white)
-                        .cornerRadius(16)
-                        .padding(.horizontal, 24)
-                    }
+//                    // 테마 섹션
+//                    VStack(alignment: .leading, spacing: 8) {
+//                        Text("테마")
+//                            .font(.system(size: 14, weight: .medium))
+//                            .foregroundColor(Color(red: 0.6, green: 0.6, blue: 0.6))
+//                            .padding(.horizontal, 24)
+//
+//                        HStack {
+//                            Image(systemName: "moon.fill")
+//                                .font(.system(size: 20))
+//                                .foregroundColor(Color(red: 0.7, green: 0.7, blue: 0.7))
+//                                .frame(width: 40)
+//
+//                            Text("다크 모드")
+//                                .font(.system(size: 16))
+//                                .foregroundColor(.black)
+//
+//                            Spacer()
+//
+//                            Toggle("", isOn: $darkModeEnabled)
+//                                .labelsHidden()
+//                                .tint(Color(red: 0.55, green: 0.65, blue: 0.55))
+//                        }
+//                        .padding(.horizontal, 20)
+//                        .padding(.vertical, 16)
+//                        .background(Color.white)
+//                        .cornerRadius(16)
+//                        .padding(.horizontal, 24)
+//                    }
                     
                     // 지원 섹션
                     VStack(alignment: .leading, spacing: 8) {
@@ -153,7 +153,9 @@ struct SettingsView: View {
                         
                         VStack(spacing: 0) {
                             Button(action: {
-                                // 개발자에게 의견 보내기 액션
+                                if let url = URL(string: "https://forms.gle/PwM5X6pGdRcgPjFJ6") {
+                                    UIApplication.shared.open(url)
+                                }
                             }) {
                                 HStack {
                                     Image(systemName: "envelope.fill")
@@ -249,7 +251,7 @@ struct SettingsView: View {
 //            VStack {
 //                HStack {
 //                    Spacer()
-//                    
+//
 //                    Button(action: {
 //                        dismiss()
 //                    }) {
@@ -263,7 +265,7 @@ struct SettingsView: View {
 //                    .padding(.trailing, 24)
 //                    .padding(.top, 60)
 //                }
-//                
+//
 //                Spacer()
 //            }
         }

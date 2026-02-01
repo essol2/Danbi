@@ -16,11 +16,34 @@ class NotificationManager: ObservableObject {
     
     // 알림 권한 요청
     func requestAuthorization() {
-        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
-            if granted {
-                print("알림 권한 허용됨")
-            } else if let error = error {
-                print("알림 권한 오류: \(error.localizedDescription)")
+        // 메인 스레드에서 실행
+        DispatchQueue.main.async {
+            // 먼저 현재 권한 상태 확인
+            UNUserNotificationCenter.current().getNotificationSettings { settings in
+                print("현재 알림 권한 상태: \(settings.authorizationStatus.rawValue)")
+                
+                // 권한이 결정되지 않았을 때만 요청
+                if settings.authorizationStatus == .notDetermined {
+                    // 메인 스레드에서 권한 요청
+                    DispatchQueue.main.async {
+                        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
+                            DispatchQueue.main.async {
+                                if granted {
+                                    print("✅ 알림 권한 허용됨")
+                                } else {
+                                    print("❌ 알림 권한 거부됨")
+                                }
+                                if let error = error {
+                                    print("⚠️ 알림 권한 오류: \(error.localizedDescription)")
+                                }
+                            }
+                        }
+                    }
+                } else if settings.authorizationStatus == .denied {
+                    print("⚠️ 알림 권한이 거부되어 있습니다. 시스템 환경설정에서 변경하세요.")
+                } else if settings.authorizationStatus == .authorized {
+                    print("✅ 알림 권한이 이미 허용되어 있습니다.")
+                }
             }
         }
     }
