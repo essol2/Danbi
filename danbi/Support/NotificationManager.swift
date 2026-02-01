@@ -62,10 +62,17 @@ class NotificationManager: ObservableObject {
         
         guard let wateringDate = nextWateringDate else { return }
         
-        // 이미 지난 날짜면 알림 예약 안 함
-        if wateringDate <= Date() {
+        // 🔧 디버깅: 남은 일수 확인
+        let daysUntilWatering = plant.wateringInterval - plant.daysSinceWatered
+        print("🌱 \(plant.name): 물주기까지 \(daysUntilWatering)일 남음")
+        
+        // 이미 지난 날짜이거나 오늘이 아니면 알림 예약 안 함
+        if daysUntilWatering != 0 {
+            print("⏭️ \(plant.name): 물주기 날짜가 아니므로 알림 예약 안 함")
             return
         }
+        
+        print("💧 \(plant.name): 오늘 물주기 날짜! 오전 10시 알림 예약")
         
         // 알림 내용 설정
         let content = UNMutableNotificationContent()
@@ -74,12 +81,14 @@ class NotificationManager: ObservableObject {
         content.sound = .default
         content.badge = 1
         
-        // 알림 시간 설정 (아침 9시)
+        // ✅ 운영 모드: 아침 10시 알림
         var dateComponents = Calendar.current.dateComponents([.year, .month, .day], from: wateringDate)
-        dateComponents.hour = 9
+        dateComponents.hour = 10
         dateComponents.minute = 0
-        
         let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
+        
+        // 디버깅 모드: 10초 후 알림 (테스트용)
+        // let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 10, repeats: false)
         
         // 알림 요청 생성
         let identifier = "watering-\(plant.id.uuidString)"
@@ -88,11 +97,14 @@ class NotificationManager: ObservableObject {
         // 알림 예약
         UNUserNotificationCenter.current().add(request) { error in
             if let error = error {
-                print("알림 예약 실패: \(error.localizedDescription)")
+                print("❌ 알림 예약 실패: \(error.localizedDescription)")
             } else {
-                print("\(plant.name) 알림 예약 완료: \(wateringDate)")
+                print("✅ \(plant.name) 알림 예약 완료: 오전 10시")
             }
         }
+        
+        // 디버깅: 예약된 알림 즉시 확인
+        self.printPendingNotifications()
     }
     
     // 특정 식물의 알림 취소

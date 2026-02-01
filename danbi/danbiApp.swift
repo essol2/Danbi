@@ -10,9 +10,12 @@ import SwiftData
 import UserNotifications
 
 // AppDelegate 추가
-class AppDelegate: NSObject, UIApplicationDelegate {
+class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         print("🚀 앱 시작 - 알림 권한 요청 시작")
+        
+        // Delegate 설정 - Foreground에서도 알림 받기 위해 필수
+        UNUserNotificationCenter.current().delegate = self
         
         // ⚠️ 중요: 시스템이 준비될 시간을 주기 위해 2초 딜레이
         DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
@@ -32,6 +35,27 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         }
         
         return true
+    }
+    
+    // 🔧 Foreground에서 알림 표시하기 위한 메서드
+    func userNotificationCenter(
+        _ center: UNUserNotificationCenter,
+        willPresent notification: UNNotification,
+        withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void
+    ) {
+        print("📲 Foreground 알림 도착: \(notification.request.content.title)")
+        // iOS 14+ 에서 banner, sound, badge 모두 표시
+        completionHandler([.banner, .sound, .badge])
+    }
+    
+    // 알림을 탭했을 때 처리 (선택사항)
+    func userNotificationCenter(
+        _ center: UNUserNotificationCenter,
+        didReceive response: UNNotificationResponse,
+        withCompletionHandler completionHandler: @escaping () -> Void
+    ) {
+        print("👆 알림 탭됨: \(response.notification.request.content.title)")
+        completionHandler()
     }
 }
 
@@ -67,11 +91,38 @@ struct danbiApp: App {
     // AppDelegate 연결
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     
+    // 앱 생명주기 감지
+    @Environment(\.scenePhase) private var scenePhase
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .onAppear {
+                    // 앱 실행 시 뱃지 초기화
+                    clearBadge()
+                }
         }
         .modelContainer(for: Plant.self)
+        .onChange(of: scenePhase) { oldPhase, newPhase in
+            // 앱이 활성화될 때마다 뱃지 초기화
+            if newPhase == .active {
+                clearBadge()
+            }
+        }
+    }
+    
+    // 뱃지 초기화 함수
+    private func clearBadge() {
+        UNUserNotificationCenter.current().setBadgeCount(0) { error in
+            if let error = error {
+                print("⚠️ 뱃지 초기화 실패: \(error.localizedDescription)")
+            } else {
+                print("✅ 뱃지 초기화 완료")
+            }
+        }
+        
+        // 전달된 알림도 모두 제거
+        UNUserNotificationCenter.current().removeAllDeliveredNotifications()
     }
 }
 
