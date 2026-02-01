@@ -7,12 +7,17 @@
 
 import SwiftUI
 import SwiftData
+import SafariServices
 
 struct SettingsView: View {
     @Environment(\.dismiss) private var dismiss
     @Query private var plants: [Plant]
     @AppStorage("notificationsEnabled") private var notificationsEnabled = true
     @AppStorage("darkModeEnabled") private var darkModeEnabled = false
+    
+    // 인앱 브라우저 상태 관리
+    @State private var showingSafari = false
+    @State private var safariURL: URL?
     
     var body: some View {
         ZStack {
@@ -180,7 +185,11 @@ struct SettingsView: View {
                                 .padding(.leading, 60)
                             
                             Button(action: {
-                                // Danbi 정보 액션
+                                // Danbi 정보 - 인앱 브라우저로 열기
+                                if let url = URL(string: "https://essol2.notion.site/Danbi-2fa2792a0a6f80f4bed8e85eb352d5ce?source=copy_link") {
+                                    safariURL = url
+                                    showingSafari = true
+                                }
                             }) {
                                 HStack {
                                     Image(systemName: "info.circle.fill")
@@ -269,6 +278,28 @@ struct SettingsView: View {
 //                Spacer()
 //            }
         }
+        .sheet(isPresented: $showingSafari) {
+            if let url = safariURL {
+                SafariView(url: url)
+            }
+        }
+    }
+}
+
+// SafariViewController를 SwiftUI에서 사용하기 위한 Wrapper
+struct SafariView: UIViewControllerRepresentable {
+    let url: URL
+    
+    func makeUIViewController(context: Context) -> SFSafariViewController {
+        let config = SFSafariViewController.Configuration()
+        config.entersReaderIfAvailable = false
+        let safari = SFSafariViewController(url: url, configuration: config)
+        safari.preferredControlTintColor = UIColor(red: 0.55, green: 0.65, blue: 0.55, alpha: 1.0)
+        return safari
+    }
+    
+    func updateUIViewController(_ uiViewController: SFSafariViewController, context: Context) {
+        // 업데이트 필요 없음
     }
 }
 
