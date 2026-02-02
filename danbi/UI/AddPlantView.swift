@@ -12,6 +12,7 @@ import SwiftData
 struct AddPlantView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) private var modelContext
+    @Query private var plants: [Plant] // 기존 식물 갯수 확인용
     
     @State private var plantName = ""
     @State private var species = ""
@@ -20,6 +21,8 @@ struct AddPlantView: View {
     @State private var showImagePicker = false
     @State private var imageSourceType: UIImagePickerController.SourceType = .camera
     @State private var showImageSourceAlert = false
+    @State private var showAdAlert = false // 광고 보기 알림
+    @State private var isLoadingAd = false // 광고 로딩 상태
     
     var body: some View {
         ZStack {
@@ -151,7 +154,12 @@ struct AddPlantView: View {
                 
                 // Add Button
                 Button(action: {
-                    addPlant()
+                    // 3개 이상일 때 광고 표시
+                    if plants.count >= 3 {
+                        showAdAlert = true
+                    } else {
+                        addPlant()
+                    }
                 }) {
                     Text("+ 추가")
                         .font(.system(size: 18, weight: .semibold))
@@ -190,6 +198,24 @@ struct AddPlantView: View {
         } message: {
             Text("사진을 가져올 방법을 선택하세요")
         }
+        .customAlert(
+            isPresented: $showAdAlert,
+            icon: "play.circle.fill",
+            title: "식물 등록 한도",
+            message: "무료로 3개까지 등록할 수 있어요.\n추가 등록을 위해 짧은 광고를 시청해주세요!",
+            primaryButtonTitle: "광고 보기",
+            secondaryButtonTitle: "취소",
+            primaryAction: {
+                showRewardedAd()
+            },
+            secondaryAction: {
+                print("🚫 광고 보기 취소")
+            }
+        )
+        .onAppear {
+            // 보상형 광고 미리 로드
+            RewardedAdManager.shared.loadAd()
+        }
     }
     
     private func addPlant() {
@@ -213,6 +239,23 @@ struct AddPlantView: View {
         newPlant.updateWateringNotification()
         
         dismiss()
+    }
+    
+    private func showRewardedAd() {
+        isLoadingAd = true
+        
+        RewardedAdManager.shared.showAd { success in
+            isLoadingAd = false
+            
+            if success {
+                // 광고 시청 성공 - 식물 추가
+                print("✅ 광고 시청 완료 - 식물 추가 허용")
+                addPlant()
+            } else {
+                // 광고 시청 실패 또는 중단
+                print("❌ 광고 시청 실패 - 식물 추가 취소")
+            }
+        }
     }
 }
 

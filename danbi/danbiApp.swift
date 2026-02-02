@@ -38,6 +38,9 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
         // 앱 오프닝 광고 미리 로드 (표시는 danbiApp에서 처리)
         AppOpenAdManager.shared.loadAd()
         
+        // 보상형 광고도 미리 로드
+        RewardedAdManager.shared.loadAd()
+        
         return true
     }
     
