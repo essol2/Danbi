@@ -7,14 +7,17 @@
 
 import SwiftUI
 import SwiftData
+import GoogleMobileAds
 
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
+    @Environment(\.scenePhase) private var scenePhase // 앱 상태 감지
     @Query private var plants: [Plant]
     @State private var showingAddPlant = false
     @State private var showingSettings = false
-    @State private var currentDate = Date()
-
+    @State private var refreshID = UUID() // 뷰 리프레시용
+    
+    // 1분마다 뷰 갱신을 위한 타이머
     let timer = Timer.publish(every: 60, on: .main, in: .common).autoconnect()
 
     private var plantsNeedingWater: Int {
@@ -34,32 +37,8 @@ struct ContentView: View {
                     // Header section
                     Section {
                         VStack(alignment: .leading, spacing: 0) {
-                            HStack(alignment: .top) {
-                                VStack(alignment: .leading, spacing: 0) {
-                                    Text("단비")
-                                        .font(.custom("MemomentKkukkukkR", size: 36))
-                                        .foregroundColor(.black)
-                                    
-                                    Text("나의 반려식물에게 내리는 단비")
-                                        .font(.custom("MemomentKkukkukkR", size: 18))
-                                        .foregroundColor(Color(red: 0.5, green: 0.5, blue: 0.5))
-                                        .padding(.top, 8)
-                                }
-                                
-                                Spacer()
-                                
-                                // 설정 메뉴 버튼
-                                Button(action: {
-                                    showingSettings = true
-                                }) {
-                                    Image(systemName: "ellipsis")
-                                        .rotationEffect(.degrees(90))
-                                        .font(.system(size: 24))
-                                        .foregroundColor(Color(red: 0.5, green: 0.5, blue: 0.5))
-                                        .frame(width: 44, height: 44)
-                                }
-                            }
-                            .padding(.top, 20)
+                            MainHeaderView(showingSettings: $showingSettings)
+                                .padding(.top, 30)
                             
                             // Water notification banner
                             let (emoji, message, textColor, bgColor) = plantsNeedingWater > 0
@@ -110,6 +89,10 @@ struct ContentView: View {
                                 .tint(Color(red: 0.95, green: 0.95, blue: 0.93))
                             }
                     }
+                
+//                    AdBannerView()
+//                        .frame(width: AdSizeBanner.size.width, height: AdSizeBanner.size.height)
+//                        .padding(.horizontal, 20)
                     
                     Color.clear
                         .frame(height: 100)
@@ -125,34 +108,9 @@ struct ContentView: View {
             } else {
                 // No data view
                 VStack(spacing: 0) {
-                    HStack(alignment: .top) {
-                        VStack(alignment: .leading, spacing: 0) {
-                            Text("단비")
-                                .font(.custom("MemomentKkukkukkR", size: 36))
-                                .foregroundColor(.black)
-                            
-                            Text("나의 반려식물에게 내리는 단비")
-                                .font(.custom("MemomentKkukkukkR", size: 18))
-                                .foregroundColor(Color(red: 0.5, green: 0.5, blue: 0.5))
-                                .padding(.top, 8)
-                        }
-                        
-                        Spacer()
-                        
-                        // 설정 메뉴 버튼
-                        Button(action: {
-                            showingSettings = true
-                        }) {
-                            Image(systemName: "ellipsis")
-                                .rotationEffect(.degrees(90))
-                                .font(.system(size: 24))
-                                .foregroundColor(Color(red: 0.5, green: 0.5, blue: 0.5))
-                                .frame(width: 44, height: 44)
-                        }
-                    }
-                    .padding(.horizontal, 20)
-                    .padding(.top, 60)
-                    
+                    MainHeaderView(showingSettings: $showingSettings)
+                        .padding(.horizontal, 20)
+                        .padding(.top, 30)
                     
                     // No data content
                     NoDataView()
@@ -193,6 +151,18 @@ struct ContentView: View {
                 NotificationManager.shared.rescheduleAllNotifications(plants: plants)
             }
         }
+        .onReceive(timer) { _ in
+            // 1분마다 뷰 갱신
+            refreshID = UUID()
+        }
+        .onChange(of: scenePhase) { oldPhase, newPhase in
+            // 앱이 포그라운드로 돌아오면 뷰 갱신
+            if newPhase == .active {
+                print("🔄 앱이 활성화됨 - 뷰 갱신")
+                refreshID = UUID()
+            }
+        }
+        .id(refreshID) // refreshID가 변경되면 뷰 전체가 다시 그려짐
     }
     
     private func deletePlant(_ plant: Plant) {

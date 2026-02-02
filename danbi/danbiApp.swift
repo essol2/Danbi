@@ -8,6 +8,7 @@
 import SwiftUI
 import SwiftData
 import UserNotifications
+import GoogleMobileAds
 
 // AppDelegate 추가
 class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDelegate {
@@ -34,7 +35,16 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
             }
         }
         
+        // 앱 오프닝 광고 미리 로드 (표시는 danbiApp에서 처리)
+        AppOpenAdManager.shared.loadAd()
+        
         return true
+    }
+    
+    // 앱이 백그라운드에서 포그라운드로 돌아올 때 호출
+    func applicationDidBecomeActive(_ application: UIApplication) {
+        // 백그라운드에서 돌아올 때는 광고를 표시하지 않음
+        print("📱 앱이 활성화됨 - 광고 표시 안 함 (백그라운드 복귀)")
     }
     
     // 🔧 Foreground에서 알림 표시하기 위한 메서드
@@ -59,33 +69,6 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
     }
 }
 
-//@main
-//struct danbiApp: App {
-//    var body: some Scene {
-//        WindowGroup {
-//            ContentView()
-//                .onAppear {
-//                    // 앱 최초 실행 시 샘플 데이터 추가
-//                    addSampleDataIfNeeded()
-//                }
-//        }
-//        .modelContainer(for: Plant.self)
-//    }
-//    
-//    private func addSampleDataIfNeeded() {
-//        let container = try? ModelContainer(for: Plant.self)
-//        guard let context = container?.mainContext else { return }
-//        
-//        // 데이터가 없으면 샘플 데이터 추가
-//        let descriptor = FetchDescriptor<Plant>()
-//        let existingPlants = try? context.fetch(descriptor)
-//        
-//        if existingPlants?.isEmpty ?? true {
-//            context.addSamplePlants()
-//        }
-//    }
-//}
-
 @main
 struct danbiApp: App {
     // AppDelegate 연결
@@ -94,19 +77,65 @@ struct danbiApp: App {
     // 앱 생명주기 감지
     @Environment(\.scenePhase) private var scenePhase
     
+    // 스플래시/광고 로딩 상태
+    @State private var isAdLoading = true
+    @State private var showMainContent = false
+    
+    init() {
+        // AdMob 초기화
+        MobileAds.shared.start()
+    }
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
-                .onAppear {
-                    // 앱 실행 시 뱃지 초기화
-                    clearBadge()
+            ZStack {
+                if showMainContent {
+                    ContentView()
+                        .onAppear {
+                            // 앱 실행 시 뱃지 초기화
+                            clearBadge()
+                        }
+                        .transition(.opacity)
+                } else {
+                    SplashView(isLoading: $isAdLoading)
+                        .transition(.opacity)
                 }
+            }
+            .onAppear {
+                // 광고 로드 완료 후 메인 화면으로 전환
+                checkAdLoadingStatus()
+            }
         }
         .modelContainer(for: Plant.self)
         .onChange(of: scenePhase) { oldPhase, newPhase in
             // 앱이 활성화될 때마다 뱃지 초기화
             if newPhase == .active {
                 clearBadge()
+                // 백그라운드에서 돌아올 때는 광고 표시 안 함 (처음 실행시에만 표시)
+            }
+        }
+    }
+    
+    // 광고 로딩 상태 체크
+    private func checkAdLoadingStatus() {
+        // 광고 로딩 상태를 주기적으로 확인
+        Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { timer in
+            // 광고가 로드되었거나 로딩 중이 아니면
+            if !AppOpenAdManager.shared.isLoadingAd {
+                timer.invalidate()
+                isAdLoading = false
+                
+                // 0.5초 후 광고 표시 시도 및 메인 화면 전환
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    AppOpenAdManager.shared.showAdIfAvailable()
+                    
+                    // 광고 표시 후 메인 화면으로 전환
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        withAnimation(.easeInOut(duration: 0.3)) {
+                            showMainContent = true
+                        }
+                    }
+                }
             }
         }
     }
