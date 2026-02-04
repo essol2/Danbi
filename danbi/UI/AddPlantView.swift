@@ -131,20 +131,18 @@ struct AddPlantView: View {
                         }
                         
                         // Watering Frequency
-                        VStack(alignment: .leading, spacing: 16) {
+                        VStack(alignment: .leading, spacing: 10) {
                             Text("물 주기")
                                 .font(.system(size: 16))
                                 .foregroundColor(Color(red: 0.5, green: 0.5, blue: 0.5))
                             
-                            HStack {
-                                Slider(value: $wateringInterval, in: 1...30, step: 1)
-                                    .accentColor(Color(red: 0.55, green: 0.65, blue: 0.55))
-                                
-                                Text("매 \(Int(wateringInterval)) 일마다")
-                                    .font(.system(size: 16, weight: .medium))
-                                    .foregroundColor(.black)
-                                    .frame(width: 120, alignment: .trailing)
-                            }
+                            Slider(value: $wateringInterval, in: 1...90, step: 1)
+                                .accentColor(Color(red: 0.55, green: 0.65, blue: 0.55))
+                            
+                            Text("오늘부터 매 \(Int(wateringInterval)) 일마다")
+                                .font(.system(size: 14, weight: .regular))
+                                .foregroundColor(.black)
+//                                .frame(width: 100, alignment: .trailing)
                         }
                     }
                     .padding(.horizontal, 24)
