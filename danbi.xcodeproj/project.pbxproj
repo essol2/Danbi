@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		A15A49F02F2F6CA900E4AE35 /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = A15A49EF2F2F6CA900E4AE35 /* GoogleMobileAds */; };
+		A17DAB112F30E9CB00791F4B /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A17DAB102F30E9CB00791F4B /* WidgetKit.framework */; };
+		A17DAB132F30E9CB00791F4B /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A17DAB122F30E9CB00791F4B /* SwiftUI.framework */; };
+		A17DAB222F30E9CC00791F4B /* danbiWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = A17DAB0E2F30E9CB00791F4B /* danbiWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -25,12 +28,37 @@
 			remoteGlobalIDString = A1682FA32F28CF5E00CC8FED;
 			remoteInfo = danbi;
 		};
+		A17DAB202F30E9CC00791F4B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A1682F9C2F28CF5D00CC8FED /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A17DAB0D2F30E9CB00791F4B;
+			remoteInfo = danbiWidgetExtension;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		A17DAB272F30E9CC00791F4B /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				A17DAB222F30E9CC00791F4B /* danbiWidgetExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		A1682FA42F28CF5E00CC8FED /* danbi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = danbi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1682FB82F28CF5E00CC8FED /* danbiTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = danbiTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1682FC22F28CF5F00CC8FED /* danbiUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = danbiUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		A17DAB0E2F30E9CB00791F4B /* danbiWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = danbiWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		A17DAB102F30E9CB00791F4B /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		A17DAB122F30E9CB00791F4B /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		A17DAB282F30EA1200791F4B /* danbiWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = danbiWidgetExtension.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -41,6 +69,22 @@
 			);
 			target = A1682FA32F28CF5E00CC8FED /* danbi */;
 		};
+		A17DAB262F30E9CC00791F4B /* Exceptions for "danbiWidget" folder in "danbiWidgetExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = A17DAB0D2F30E9CB00791F4B /* danbiWidgetExtension */;
+		};
+		A17DAB2C2F30EA5700791F4B /* Exceptions for "danbi" folder in "danbiWidgetExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Model/Plant.swift,
+				Model/SampleData.swift,
+				Support/MemomentKkukkukk.ttf,
+			);
+			target = A17DAB0D2F30E9CB00791F4B /* danbiWidgetExtension */;
+		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -48,6 +92,7 @@
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				A1682FCA2F28CF5F00CC8FED /* Exceptions for "danbi" folder in "danbi" target */,
+				A17DAB2C2F30EA5700791F4B /* Exceptions for "danbi" folder in "danbiWidgetExtension" target */,
 			);
 			path = danbi;
 			sourceTree = "<group>";
@@ -60,6 +105,14 @@
 		A1682FC52F28CF5F00CC8FED /* danbiUITests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = danbiUITests;
+			sourceTree = "<group>";
+		};
+		A17DAB142F30E9CB00791F4B /* danbiWidget */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				A17DAB262F30E9CC00791F4B /* Exceptions for "danbiWidget" folder in "danbiWidgetExtension" target */,
+			);
+			path = danbiWidget;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -87,15 +140,27 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		A17DAB0B2F30E9CB00791F4B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A17DAB132F30E9CB00791F4B /* SwiftUI.framework in Frameworks */,
+				A17DAB112F30E9CB00791F4B /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		A1682F9B2F28CF5D00CC8FED = {
 			isa = PBXGroup;
 			children = (
+				A17DAB282F30EA1200791F4B /* danbiWidgetExtension.entitlements */,
 				A1682FA62F28CF5E00CC8FED /* danbi */,
 				A1682FBB2F28CF5E00CC8FED /* danbiTests */,
 				A1682FC52F28CF5F00CC8FED /* danbiUITests */,
+				A17DAB142F30E9CB00791F4B /* danbiWidget */,
+				A17DAB0F2F30E9CB00791F4B /* Frameworks */,
 				A1682FA52F28CF5E00CC8FED /* Products */,
 			);
 			sourceTree = "<group>";
@@ -106,8 +171,18 @@
 				A1682FA42F28CF5E00CC8FED /* danbi.app */,
 				A1682FB82F28CF5E00CC8FED /* danbiTests.xctest */,
 				A1682FC22F28CF5F00CC8FED /* danbiUITests.xctest */,
+				A17DAB0E2F30E9CB00791F4B /* danbiWidgetExtension.appex */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		A17DAB0F2F30E9CB00791F4B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A17DAB102F30E9CB00791F4B /* WidgetKit.framework */,
+				A17DAB122F30E9CB00791F4B /* SwiftUI.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -120,10 +195,12 @@
 				A1682FA02F28CF5E00CC8FED /* Sources */,
 				A1682FA12F28CF5E00CC8FED /* Frameworks */,
 				A1682FA22F28CF5E00CC8FED /* Resources */,
+				A17DAB272F30E9CC00791F4B /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				A17DAB212F30E9CC00791F4B /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				A1682FA62F28CF5E00CC8FED /* danbi */,
@@ -182,6 +259,28 @@
 			productReference = A1682FC22F28CF5F00CC8FED /* danbiUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		A17DAB0D2F30E9CB00791F4B /* danbiWidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A17DAB232F30E9CC00791F4B /* Build configuration list for PBXNativeTarget "danbiWidgetExtension" */;
+			buildPhases = (
+				A17DAB0A2F30E9CB00791F4B /* Sources */,
+				A17DAB0B2F30E9CB00791F4B /* Frameworks */,
+				A17DAB0C2F30E9CB00791F4B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				A17DAB142F30E9CB00791F4B /* danbiWidget */,
+			);
+			name = danbiWidgetExtension;
+			packageProductDependencies = (
+			);
+			productName = danbiWidgetExtension;
+			productReference = A17DAB0E2F30E9CB00791F4B /* danbiWidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -202,6 +301,9 @@
 					A1682FC12F28CF5F00CC8FED = {
 						CreatedOnToolsVersion = 16.2;
 						TestTargetID = A1682FA32F28CF5E00CC8FED;
+					};
+					A17DAB0D2F30E9CB00791F4B = {
+						CreatedOnToolsVersion = 16.2;
 					};
 				};
 			};
@@ -225,6 +327,7 @@
 				A1682FA32F28CF5E00CC8FED /* danbi */,
 				A1682FB72F28CF5E00CC8FED /* danbiTests */,
 				A1682FC12F28CF5F00CC8FED /* danbiUITests */,
+				A17DAB0D2F30E9CB00791F4B /* danbiWidgetExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -245,6 +348,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		A1682FC02F28CF5F00CC8FED /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A17DAB0C2F30E9CB00791F4B /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -275,6 +385,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		A17DAB0A2F30E9CB00791F4B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -287,6 +404,11 @@
 			isa = PBXTargetDependency;
 			target = A1682FA32F28CF5E00CC8FED /* danbi */;
 			targetProxy = A1682FC32F28CF5F00CC8FED /* PBXContainerItemProxy */;
+		};
+		A17DAB212F30E9CC00791F4B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A17DAB0D2F30E9CB00791F4B /* danbiWidgetExtension */;
+			targetProxy = A17DAB202F30E9CC00791F4B /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -556,6 +678,66 @@
 			};
 			name = Release;
 		};
+		A17DAB242F30E9CC00791F4B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = danbiWidgetExtension.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = WC5T233HM3;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = danbiWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = danbiWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				OTHER_SWIFT_FLAGS = "\"-DWIDGET_EXTENSION\"";
+				PRODUCT_BUNDLE_IDENTIFIER = com.plant.danbi.danbiWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		A17DAB252F30E9CC00791F4B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = danbiWidgetExtension.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = WC5T233HM3;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = danbiWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = danbiWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				OTHER_SWIFT_FLAGS = "\"-DWIDGET_EXTENSION\"";
+				PRODUCT_BUNDLE_IDENTIFIER = com.plant.danbi.danbiWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -591,6 +773,15 @@
 			buildConfigurations = (
 				A1682FD42F28CF5F00CC8FED /* Debug */,
 				A1682FD52F28CF5F00CC8FED /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A17DAB232F30E9CC00791F4B /* Build configuration list for PBXNativeTarget "danbiWidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A17DAB242F30E9CC00791F4B /* Debug */,
+				A17DAB252F30E9CC00791F4B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

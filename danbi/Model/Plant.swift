@@ -46,7 +46,9 @@ final class Plant {
     
     // 물주기 날짜가 변경될 때 알림 자동 업데이트
     func updateWateringNotification() {
+        #if !WIDGET_EXTENSION
         NotificationManager.shared.scheduleWateringNotification(for: self)
+        #endif
     }
 }
 
