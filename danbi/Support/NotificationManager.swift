@@ -52,58 +52,76 @@ class NotificationManager: ObservableObject {
     func scheduleWateringNotification(for plant: Plant) {
         // 기존 알림 취소
         cancelNotification(for: plant)
-        
-        // 다음 물주기 날짜 계산
-        let nextWateringDate = Calendar.current.date(
-            byAdding: .day,
-            value: plant.wateringInterval - plant.daysSinceWatered,
-            to: Date()
-        )
-        
-        guard let wateringDate = nextWateringDate else { return }
-        
-        // 🔧 디버깅: 남은 일수 확인
+
+        // 다음 물주기까지 남은 일수 계산
         let daysUntilWatering = plant.wateringInterval - plant.daysSinceWatered
-        print("🌱 \(plant.name): 물주기까지 \(daysUntilWatering)일 남음")
-        
-        // 이미 지난 날짜이거나 오늘이 아니면 알림 예약 안 함
-        if daysUntilWatering != 0 {
-            print("⏭️ \(plant.name): 물주기 날짜가 아니므로 알림 예약 안 함")
-            return
+
+        // 다음 물주기 날짜 계산
+        let nextWateringDate: Date
+        if daysUntilWatering <= 0 {
+            // 이미 물주기 날짜가 지났거나 오늘인 경우 → 오늘 알림
+            nextWateringDate = Date()
+        } else {
+            // 아직 물주기 날짜가 안 됐으면 → 해당 날짜에 알림
+            nextWateringDate = Calendar.current.date(
+                byAdding: .day,
+                value: daysUntilWatering,
+                to: Date()
+            ) ?? Date()
         }
-        
-        print("💧 \(plant.name): 오늘 물주기 날짜! 오전 10시 알림 예약")
-        
+
+        print("🌱 \(plant.name): 물주기까지 \(daysUntilWatering)일 남음")
+
         // 알림 내용 설정
         let content = UNMutableNotificationContent()
         content.title = "💧 물 줄 시간이에요!"
         content.body = "\(plant.name)에게 단비를 내려주세요"
         content.sound = .default
         content.badge = 1
-        
-        // ✅ 운영 모드: 아침 10시 알림
-        var dateComponents = Calendar.current.dateComponents([.year, .month, .day], from: wateringDate)
+
+        // 알림 시간 설정: 물주기 날짜 오전 10시
+        var dateComponents = Calendar.current.dateComponents([.year, .month, .day], from: nextWateringDate)
         dateComponents.hour = 10
         dateComponents.minute = 0
+
+        // 오늘인데 이미 10시가 지났으면 바로 알림 (테스트용으로 5초 후)
+        let now = Date()
+        let calendar = Calendar.current
+        if calendar.isDateInToday(nextWateringDate) {
+            let currentHour = calendar.component(.hour, from: now)
+            if currentHour >= 10 {
+                // 이미 10시가 지났으면 5초 후 알림
+                let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
+                let identifier = "watering-\(plant.id.uuidString)"
+                let request = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
+
+                UNUserNotificationCenter.current().add(request) { error in
+                    if let error = error {
+                        print("❌ 알림 예약 실패: \(error.localizedDescription)")
+                    } else {
+                        print("✅ \(plant.name) 알림 예약 완료: 5초 후 (오늘 10시 지남)")
+                    }
+                }
+                self.printPendingNotifications()
+                return
+            }
+        }
+
+        // 일반 케이스: 해당 날짜 오전 10시에 알림
         let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
-        
-        // 디버깅 모드: 10초 후 알림 (테스트용)
-        // let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 10, repeats: false)
-        
-        // 알림 요청 생성
         let identifier = "watering-\(plant.id.uuidString)"
         let request = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
-        
-        // 알림 예약
+
         UNUserNotificationCenter.current().add(request) { error in
             if let error = error {
                 print("❌ 알림 예약 실패: \(error.localizedDescription)")
             } else {
-                print("✅ \(plant.name) 알림 예약 완료: 오전 10시")
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "yyyy-MM-dd HH:mm"
+                print("✅ \(plant.name) 알림 예약 완료: \(dateFormatter.string(from: nextWateringDate)) 오전 10시")
             }
         }
-        
-        // 디버깅: 예약된 알림 즉시 확인
+
         self.printPendingNotifications()
     }
     

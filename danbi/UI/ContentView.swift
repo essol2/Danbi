@@ -156,10 +156,15 @@ struct ContentView: View {
             refreshID = UUID()
         }
         .onChange(of: scenePhase) { oldPhase, newPhase in
-            // 앱이 포그라운드로 돌아오면 뷰 갱신
+            // 앱이 포그라운드로 돌아오면 뷰 갱신 + 알림 재예약
             if newPhase == .active {
-                print("🔄 앱이 활성화됨 - 뷰 갱신")
+                print("🔄 앱이 활성화됨 - 뷰 갱신 및 알림 재예약")
                 refreshID = UUID()
+
+                // 알림 재예약 (날짜가 바뀌었을 수 있으므로)
+                if UserDefaults.standard.bool(forKey: "notificationsEnabled") || UserDefaults.standard.object(forKey: "notificationsEnabled") == nil {
+                    NotificationManager.shared.rescheduleAllNotifications(plants: plants)
+                }
             }
         }
         .id(refreshID) // refreshID가 변경되면 뷰 전체가 다시 그려짐

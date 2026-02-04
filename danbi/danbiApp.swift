@@ -9,9 +9,12 @@ import SwiftUI
 import SwiftData
 import UserNotifications
 import GoogleMobileAds
+import AppTrackingTransparency
+import AdSupport
 
 // AppDelegate 추가
 class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDelegate {
+
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         print("🚀 앱 시작 - 알림 권한 요청 시작")
         
@@ -44,12 +47,6 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
         return true
     }
     
-    // 앱이 백그라운드에서 포그라운드로 돌아올 때 호출
-    func applicationDidBecomeActive(_ application: UIApplication) {
-        // 백그라운드에서 돌아올 때는 광고를 표시하지 않음
-        print("📱 앱이 활성화됨 - 광고 표시 안 함 (백그라운드 복귀)")
-    }
-    
     // 🔧 Foreground에서 알림 표시하기 위한 메서드
     func userNotificationCenter(
         _ center: UNUserNotificationCenter,
@@ -76,13 +73,16 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
 struct danbiApp: App {
     // AppDelegate 연결
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
-    
+
     // 앱 생명주기 감지
     @Environment(\.scenePhase) private var scenePhase
-    
+
     // 스플래시/광고 로딩 상태
     @State private var isAdLoading = true
     @State private var showMainContent = false
+
+    // ATT 권한 요청 여부
+    @State private var hasRequestedATT = false
     
     init() {
         // AdMob 초기화
@@ -114,25 +114,40 @@ struct danbiApp: App {
             // 앱이 활성화될 때마다 뱃지 초기화
             if newPhase == .active {
                 clearBadge()
-                // 백그라운드에서 돌아올 때는 광고 표시 안 함 (처음 실행시에만 표시)
+
+                // ATT 권한 요청 (앱 실행 당 1회만, active 상태에서만 가능)
+                if !hasRequestedATT {
+                    hasRequestedATT = true
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                        requestTrackingPermission()
+                    }
+                }
             }
         }
     }
     
     // 광고 로딩 상태 체크
     private func checkAdLoadingStatus() {
+        // ⏱️ 타임아웃 로직 (필요시 주석 해제)
+        // let maxWaitTime: TimeInterval = 3.0 // 최대 대기 시간
+        // let startTime = Date()
+
         // 광고 로딩 상태를 주기적으로 확인
         Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { timer in
+            // ⏱️ 타임아웃 로직 (필요시 주석 해제)
+            // let elapsedTime = Date().timeIntervalSince(startTime)
+            // if !AppOpenAdManager.shared.isLoadingAd || elapsedTime >= maxWaitTime {
+
             // 광고가 로드되었거나 로딩 중이 아니면
             if !AppOpenAdManager.shared.isLoadingAd {
                 timer.invalidate()
                 isAdLoading = false
-                
-                // 0.5초 후 광고 표시 시도 및 메인 화면 전환
+
+                // 광고 표시 시도
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                     AppOpenAdManager.shared.showAdIfAvailable()
-                    
-                    // 광고 표시 후 메인 화면으로 전환
+
+                    // 메인 화면으로 전환
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                         withAnimation(.easeInOut(duration: 0.3)) {
                             showMainContent = true
@@ -143,6 +158,27 @@ struct danbiApp: App {
         }
     }
     
+    // MARK: - ATT 권한 요청
+    private func requestTrackingPermission() {
+        ATTrackingManager.requestTrackingAuthorization { status in
+            DispatchQueue.main.async {
+                switch status {
+                case .authorized:
+                    let idfa = ASIdentifierManager.shared().advertisingIdentifier.uuidString
+                    print("✅ ATT 권한 허용됨 - IDFA: \(idfa)")
+                case .denied:
+                    print("❌ ATT 권한 거부됨")
+                case .notDetermined:
+                    print("⏳ ATT 권한 미결정")
+                case .restricted:
+                    print("🔒 ATT 권한 제한됨 (자녀 계정 등)")
+                @unknown default:
+                    print("❓ ATT 알 수 없는 상태")
+                }
+            }
+        }
+    }
+
     // 뱃지 초기화 함수
     private func clearBadge() {
         UNUserNotificationCenter.current().setBadgeCount(0) { error in

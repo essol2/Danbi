@@ -25,7 +25,8 @@ class AppOpenAdManager: NSObject, ObservableObject, FullScreenContentDelegate {
     // 광고 유닛 ID
     // 테스트 ID (구글 제공): ca-app-pub-3940256099942544/5575463023
     // 실제 ID: ca-app-pub-4144682979193082/1585673757
-    private let adUnitID = "ca-app-pub-3940256099942544/5575463023" // 테스트용
+//    private let adUnitID = "ca-app-pub-3940256099942544/5575463023" // 테스트용
+    private let adUnitID = "ca-app-pub-4144682979193082/4095810916" // 운영용
     
     // 광고 로드 시간 추적 (4시간마다 새로고침)
     private var loadTime = Date()
