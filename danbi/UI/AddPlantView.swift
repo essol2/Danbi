@@ -13,7 +13,11 @@ struct AddPlantView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) private var modelContext
     @Query private var plants: [Plant] // 기존 식물 갯수 확인용
-    
+
+    // 수정 모드용 - 기존 식물이 있으면 수정 모드
+    var plantToEdit: Plant?
+    var isEditMode: Bool { plantToEdit != nil }
+
     @State private var plantName = ""
     @State private var species = ""
     @State private var wateringInterval: Double = 7
@@ -37,7 +41,7 @@ struct AddPlantView: View {
             VStack(spacing: 0) {
                 // Header
                 HStack {
-                    Text("반려 식물 추가")
+                    Text(isEditMode ? "반려 식물 수정" : "반려 식물 추가")
                         .font(.system(size: 28, weight: .semibold))
                         .foregroundColor(.black)
                     
@@ -155,16 +159,20 @@ struct AddPlantView: View {
                     .padding(.bottom, 24)
                 }
                 
-                // Add Button
+                // Add/Edit Button
                 Button(action: {
-                    // 3개 이상일 때 광고 표시
-                    if plants.count >= 3 {
-                        showAdAlert = true
+                    if isEditMode {
+                        updatePlant()
                     } else {
-                        addPlant()
+                        // 3개 이상일 때 광고 표시
+                        if plants.count >= 3 {
+                            showAdAlert = true
+                        } else {
+                            addPlant()
+                        }
                     }
                 }) {
-                    Text("+ 추가")
+                    Text(isEditMode ? "수정 완료" : "+ 추가")
                         .font(.system(size: 18, weight: .semibold))
                         .foregroundColor(.white)
                         .frame(maxWidth: .infinity)
@@ -218,6 +226,16 @@ struct AddPlantView: View {
         .onAppear {
             // 보상형 광고 미리 로드
             RewardedAdManager.shared.loadAd()
+
+            // 수정 모드일 때 기존 데이터 로드
+            if let plant = plantToEdit {
+                plantName = plant.name
+                species = plant.scientificName
+                wateringInterval = Double(plant.wateringInterval)
+                if let imageData = plant.imageData {
+                    selectedImage = UIImage(data: imageData)
+                }
+            }
         }
     }
     
@@ -226,7 +244,7 @@ struct AddPlantView: View {
         if let selectedImage = selectedImage {
             imageData = selectedImage.jpegData(compressionQuality: 0.8)
         }
-        
+
         let newPlant = Plant(
             name: plantName,
             scientificName: species,
@@ -234,13 +252,34 @@ struct AddPlantView: View {
             wateringInterval: Int(wateringInterval),
             imageData: imageData
         )
-        
+
         modelContext.insert(newPlant)
         try? modelContext.save()
-        
+
         // 알림 예약
         newPlant.updateWateringNotification()
-        
+
+        dismiss()
+    }
+
+    private func updatePlant() {
+        guard let plant = plantToEdit else { return }
+
+        var imageData: Data?
+        if let selectedImage = selectedImage {
+            imageData = selectedImage.jpegData(compressionQuality: 0.8)
+        }
+
+        plant.name = plantName
+        plant.scientificName = species
+        plant.wateringInterval = Int(wateringInterval)
+        plant.imageData = imageData
+
+        try? modelContext.save()
+
+        // 알림 재예약
+        plant.updateWateringNotification()
+
         dismiss()
     }
     
