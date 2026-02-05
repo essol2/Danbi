@@ -28,13 +28,15 @@ final class Plant {
     
     // 물을 줘야 하는지 계산
     var needsWater: Bool {
-        let daysSinceWatered = Calendar.current.dateComponents([.day], from: lastWatered, to: Date()).day ?? 0
         return daysSinceWatered >= wateringInterval
     }
     
     // 마지막 물주기로부터 경과한 날짜
     var daysSinceWatered: Int {
-        Calendar.current.dateComponents([.day], from: lastWatered, to: Date()).day ?? 0
+        let calendar = Calendar.current
+        let lastWateredDay = calendar.startOfDay(for: lastWatered)
+        let today = calendar.startOfDay(for: Date())
+        return calendar.dateComponents([.day], from: lastWateredDay, to: today).day ?? 0
     }
     
     // 진행률 계산 (0.0 ~ 1.0)

@@ -94,8 +94,11 @@ struct PlantCardView: View {
                             .font(.system(size: 15, weight: .medium))
                             .foregroundColor(Color(red: 0.65, green: 0.72, blue: 0.65))
                     } else {
-                        let daysUntilWater = plant.wateringInterval - plant.daysSinceWatered
-                        Text("\(daysUntilWater)일마다")
+//                        let daysUntilWater = plant.wateringInterval - plant.daysSinceWatered
+//                        Text("\(daysUntilWater)일마다")
+//                            .font(.system(size: 15, weight: .medium))
+//                            .foregroundColor(Color(red: 0.5, green: 0.5, blue: 0.5))
+                        Text("\(plant.wateringInterval)일마다")
                             .font(.system(size: 15, weight: .medium))
                             .foregroundColor(Color(red: 0.5, green: 0.5, blue: 0.5))
                     }
@@ -113,7 +116,11 @@ struct PlantCardView: View {
     private func waterPlant() {
         plant.lastWatered = Date()
         try? modelContext.save()
-        
+
+        print("🌱 [\(plant.name)] 물주기 완료")
+        print("   - lastWatered: \(plant.lastWatered)")
+        print("   - daysSinceWatered: \(plant.daysSinceWatered)")
+
         // 알림 재예약
         plant.updateWateringNotification()
     }

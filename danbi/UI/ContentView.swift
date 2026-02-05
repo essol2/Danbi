@@ -146,6 +146,17 @@ struct ContentView: View {
             SettingsView()
         }
         .onAppear {
+            // 디버깅: 저장된 식물 데이터 확인
+            print("=== 앱 실행 시 식물 데이터 ===")
+            for plant in plants {
+                print("🌿 \(plant.name)")
+                print("   - lastWatered: \(plant.lastWatered)")
+                print("   - daysSinceWatered: \(plant.daysSinceWatered)")
+                print("   - wateringInterval: \(plant.wateringInterval)")
+                print("   - needsWater: \(plant.needsWater)")
+            }
+            print("============================")
+
             // 앱 실행 시 모든 알림 재예약
             if UserDefaults.standard.bool(forKey: "notificationsEnabled") || UserDefaults.standard.object(forKey: "notificationsEnabled") == nil {
                 NotificationManager.shared.rescheduleAllNotifications(plants: plants)

@@ -84,26 +84,15 @@ class NotificationManager: ObservableObject {
         dateComponents.hour = 10
         dateComponents.minute = 0
 
-        // 오늘인데 이미 10시가 지났으면 바로 알림 (테스트용으로 5초 후)
-        let now = Date()
+        // 오늘인데 이미 10시가 지났으면 다음 날 10시에 알림
         let calendar = Calendar.current
         if calendar.isDateInToday(nextWateringDate) {
-            let currentHour = calendar.component(.hour, from: now)
+            let currentHour = calendar.component(.hour, from: Date())
             if currentHour >= 10 {
-                // 이미 10시가 지났으면 5초 후 알림
-                let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
-                let identifier = "watering-\(plant.id.uuidString)"
-                let request = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
-
-                UNUserNotificationCenter.current().add(request) { error in
-                    if let error = error {
-                        print("❌ 알림 예약 실패: \(error.localizedDescription)")
-                    } else {
-                        print("✅ \(plant.name) 알림 예약 완료: 5초 후 (오늘 10시 지남)")
-                    }
-                }
-                self.printPendingNotifications()
-                return
+                // 이미 10시가 지났으면 다음 날 10시에 알림
+                dateComponents = calendar.dateComponents([.year, .month, .day], from: calendar.date(byAdding: .day, value: 1, to: Date())!)
+                dateComponents.hour = 10
+                dateComponents.minute = 0
             }
         }
 
