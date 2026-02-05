@@ -146,7 +146,7 @@ struct AddPlantView: View {
                                 Text("오늘부터 매 \(Int(wateringInterval)) 일마다")
                                     .font(.system(size: 14, weight: .regular))
                                     .foregroundColor(.black)
-                                    .frame(width: 120, alignment: .trailing)
+                                    .frame(width: 150, alignment: .trailing)
                             }
                            
                             Slider(value: $wateringInterval, in: 1...90, step: 1)
