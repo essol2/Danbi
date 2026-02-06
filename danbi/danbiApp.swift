@@ -83,6 +83,10 @@ struct danbiApp: App {
 
     // ATT 권한 요청 여부
     @State private var hasRequestedATT = false
+
+    // 온보딩
+    @AppStorage("hasSeenOnboarding") private var hasSeenOnboarding = false
+    @State private var showOnboarding = false
     
     init() {
         // AdMob 초기화
@@ -97,6 +101,9 @@ struct danbiApp: App {
                         .onAppear {
                             // 앱 실행 시 뱃지 초기화
                             clearBadge()
+                        }
+                        .fullScreenCover(isPresented: $showOnboarding) {
+                            OnboardingView(hasSeenOnboarding: $hasSeenOnboarding)
                         }
                         .transition(.opacity)
                 } else {
@@ -143,14 +150,25 @@ struct danbiApp: App {
                 timer.invalidate()
                 isAdLoading = false
 
-                // 광고 표시 시도
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                    AppOpenAdManager.shared.showAdIfAvailable()
-
-                    // 메인 화면으로 전환
+                if !hasSeenOnboarding {
+                    // 첫 실행: 온보딩 먼저 표시 (광고는 온보딩 종료 후)
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                         withAnimation(.easeInOut(duration: 0.3)) {
                             showMainContent = true
+                        }
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                            showOnboarding = true
+                        }
+                    }
+                } else {
+                    // 재실행: 기존 로직 (광고 → 메인)
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        AppOpenAdManager.shared.showAdIfAvailable()
+
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                            withAnimation(.easeInOut(duration: 0.3)) {
+                                showMainContent = true
+                            }
                         }
                     }
                 }
