@@ -12,7 +12,7 @@ import SwiftData
 struct PlantCardView: View {
     let plant: Plant
     let modelContext: ModelContext
-    @State private var showingEditPlant = false
+    @Binding var showingEditPlant: Bool
 
     var body: some View {
         VStack(spacing: 0) {
@@ -112,13 +112,6 @@ struct PlantCardView: View {
         }
         .cornerRadius(20)
         .shadow(color: Color.black.opacity(0.06), radius: 8, x: 0, y: 2)
-        .onTapGesture {
-            showingEditPlant = true
-        }
-        .fullScreenCover(isPresented: $showingEditPlant) {
-            AddPlantView(plantToEdit: plant)
-                .background(ClearBackgroundView())
-        }
     }
     
     private func waterPlant() {

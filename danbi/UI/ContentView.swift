@@ -69,25 +69,12 @@ struct ContentView: View {
                     
                     // Plant cards
                     ForEach(plants) { plant in
-                        PlantCardView(plant: plant, modelContext: modelContext)
+                        PlantCardEditWrapper(plant: plant, modelContext: modelContext, onDelete: {
+                            deletePlant(plant)
+                        })
                             .listRowBackground(Color.clear)
                             .listRowSeparator(.hidden)
                             .listRowInsets(EdgeInsets(top: 12, leading: 24, bottom: 12, trailing: 24))
-                            .swipeActions(edge: .trailing, allowsFullSwipe: false) {
-                                Button {
-                                    deletePlant(plant)
-                                } label: {
-                                    VStack(spacing: 4) {
-                                        Image(systemName: "trash.fill")
-                                            .font(.system(size: 20))
-                                            .foregroundStyle(.red)
-                                        Text("삭제")
-                                            .font(.system(size: 13))
-                                            .foregroundStyle(.red)
-                                    }
-                                }
-                                .tint(Color(red: 0.95, green: 0.95, blue: 0.93))
-                            }
                     }
                 
 //                    AdBannerView()
@@ -203,6 +190,36 @@ struct ClearBackgroundView: UIViewRepresentable {
     }
     
     func updateUIView(_ uiView: UIView, context: Context) {}
+}
+
+struct PlantCardEditWrapper: View {
+    let plant: Plant
+    let modelContext: ModelContext
+    let onDelete: () -> Void
+    @State private var showingEditPlant = false
+
+    var body: some View {
+        PlantCardView(plant: plant, modelContext: modelContext, showingEditPlant: $showingEditPlant)
+            .swipeActions(edge: .leading, allowsFullSwipe: false) {
+                Button {
+                    showingEditPlant = true
+                } label: {
+                    Label("수정", systemImage: "pencil")
+                }
+                .tint(Color(red: 0.55, green: 0.65, blue: 0.55))
+            }
+            .swipeActions(edge: .trailing, allowsFullSwipe: false) {
+                Button(role: .destructive) {
+                    onDelete()
+                } label: {
+                    Label("삭제", systemImage: "trash.fill")
+                }
+            }
+            .fullScreenCover(isPresented: $showingEditPlant) {
+                AddPlantView(plantToEdit: plant)
+                    .background(ClearBackgroundView())
+            }
+    }
 }
 
 struct ContentView_Previews: PreviewProvider {
