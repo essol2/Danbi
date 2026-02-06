@@ -12,7 +12,7 @@ import GoogleMobileAds
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.scenePhase) private var scenePhase // 앱 상태 감지
-    @Query private var plants: [Plant]
+    @Query(sort: \Plant.sortOrder) private var plants: [Plant]
     @State private var showingAddPlant = false
     @State private var showingSettings = false
     @State private var refreshID = UUID() // 뷰 리프레시용
@@ -72,10 +72,11 @@ struct ContentView: View {
                         PlantCardEditWrapper(plant: plant, modelContext: modelContext, onDelete: {
                             deletePlant(plant)
                         })
-                            .listRowBackground(Color.clear)
+                            .listRowBackground(Color(red: 0.95, green: 0.95, blue: 0.93))
                             .listRowSeparator(.hidden)
                             .listRowInsets(EdgeInsets(top: 12, leading: 24, bottom: 12, trailing: 24))
                     }
+                    .onMove(perform: movePlant)
                 
 //                    AdBannerView()
 //                        .frame(width: AdSizeBanner.size.width, height: AdSizeBanner.size.height)
@@ -168,6 +169,15 @@ struct ContentView: View {
         .id(refreshID) // refreshID가 변경되면 뷰 전체가 다시 그려짐
     }
     
+    private func movePlant(from source: IndexSet, to destination: Int) {
+        var reorderedPlants = Array(plants)
+        reorderedPlants.move(fromOffsets: source, toOffset: destination)
+        for (index, plant) in reorderedPlants.enumerated() {
+            plant.sortOrder = index
+        }
+        try? modelContext.save()
+    }
+
     private func deletePlant(_ plant: Plant) {
         withAnimation {
             // 알림 취소

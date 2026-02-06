@@ -250,7 +250,8 @@ struct AddPlantView: View {
             scientificName: species,
             lastWatered: Date(),
             wateringInterval: Int(wateringInterval),
-            imageData: imageData
+            imageData: imageData,
+            sortOrder: plants.count
         )
 
         modelContext.insert(newPlant)
