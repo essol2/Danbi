@@ -13,6 +13,9 @@ struct PlantCardView: View {
     let plant: Plant
     let modelContext: ModelContext
     @Binding var showingEditPlant: Bool
+    @State private var showWaterComplete = false
+    @State private var rippleScale: CGFloat = 1.0
+    @State private var rippleOpacity: Double = 0
 
     var body: some View {
         VStack(spacing: 0) {
@@ -53,15 +56,27 @@ struct PlantCardView: View {
                     Button(action: {
                         waterPlant()
                     }) {
-                        Circle()
-                            .fill(Color(red: 0.65, green: 0.72, blue: 0.65))
-                            .frame(width: 56, height: 56)
-                            .overlay(
-                                Image(systemName: "drop.fill")
-                                    .font(.system(size: 24))
-                                    .foregroundColor(.white)
-                            )
+                        ZStack {
+                            // 물방울 퍼지는 효과
+                            Circle()
+                                .stroke(Color(red: 0.55, green: 0.65, blue: 0.55), lineWidth: 2)
+                                .frame(width: 56, height: 56)
+                                .scaleEffect(rippleScale)
+                                .opacity(rippleOpacity)
+
+                            Circle()
+                                .fill(Color(red: 0.65, green: 0.72, blue: 0.65))
+                                .frame(width: 56, height: 56)
+                                .scaleEffect(showWaterComplete ? 0.9 : 1.0)
+
+                            // 아이콘 전환
+                            Image(systemName: showWaterComplete ? "checkmark" : "drop.fill")
+                                .font(.system(size: showWaterComplete ? 22 : 24, weight: showWaterComplete ? .bold : .regular))
+                                .foregroundColor(.white)
+                                .scaleEffect(showWaterComplete ? 1.1 : 1.0)
+                        }
                     }
+                    .buttonStyle(.plain)
                 }
                 .padding(.horizontal, 20)
                 .padding(.top, 20)
@@ -115,6 +130,8 @@ struct PlantCardView: View {
     }
     
     private func waterPlant() {
+        guard !showWaterComplete else { return }
+
         plant.lastWatered = Date()
         try? modelContext.save()
 
@@ -124,5 +141,25 @@ struct PlantCardView: View {
 
         // 알림 재예약
         plant.updateWateringNotification()
+
+        // 버튼 축소 + 체크마크 전환
+        withAnimation(.spring(response: 0.3, dampingFraction: 0.5)) {
+            showWaterComplete = true
+        }
+
+        // 물방울 퍼지는 효과
+        rippleScale = 1.0
+        rippleOpacity = 0.6
+        withAnimation(.easeOut(duration: 0.6)) {
+            rippleScale = 2.0
+            rippleOpacity = 0
+        }
+
+        // 원래 상태로 복귀
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+            withAnimation(.spring(response: 0.3, dampingFraction: 0.6)) {
+                showWaterComplete = false
+            }
+        }
     }
 }
