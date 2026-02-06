@@ -186,7 +186,7 @@ struct SettingsView: View {
                             
                             Button(action: {
                                 // Danbi 정보 - 인앱 브라우저로 열기
-                                if let url = URL(string: "https://essol2.notion.site/Danbi-2fa2792a0a6f80f4bed8e85eb352d5ce?source=copy_link") {
+                                if let url = URL(string: "https://danbi-app.web.app") {
                                     safariURL = url
                                     showingSafari = true
                                 }
