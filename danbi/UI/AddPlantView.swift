@@ -21,12 +21,21 @@ struct AddPlantView: View {
     @State private var plantName = ""
     @State private var species = ""
     @State private var wateringInterval: Double = 7
+    @State private var note = ""
     @State private var selectedImage: UIImage?
     @State private var showImagePicker = false
     @State private var imageSourceType: UIImagePickerController.SourceType = .camera
     @State private var showImageSourceAlert = false
     @State private var showAdAlert = false // 광고 보기 알림
     @State private var isLoadingAd = false // 광고 로딩 상태
+
+    // 식물 AI 인식
+    @State private var recognitionResult: PlantRecognitionResult? = nil
+    @State private var isClassifying = false
+    @State private var showRecognitionResult = false
+    @State private var isLoadingCareInfo = false
+    @State private var careInfoNotFound = false
+    @FocusState private var isSpeciesFieldFocused: Bool
     
     var body: some View {
         ZStack {
@@ -42,7 +51,7 @@ struct AddPlantView: View {
                 // Header
                 HStack {
                     Text(isEditMode ? "반려 식물 수정" : "반려 식물 추가")
-                        .font(.system(size: 28, weight: .semibold))
+                        .font(.custom("MemomentKkukkukkR", size: 24))
                         .foregroundColor(.black)
                     
                     Spacer()
@@ -66,7 +75,7 @@ struct AddPlantView: View {
                         // Plant Image
                         VStack(alignment: .leading, spacing: 8) {
                             Text("식물 사진")
-                                .font(.system(size: 16))
+                                .font(.custom("MemomentKkukkukkR", size: 15))
                                 .foregroundColor(Color(red: 0.5, green: 0.5, blue: 0.5))
                             
                             Button(action: {
@@ -87,7 +96,7 @@ struct AddPlantView: View {
                                             .foregroundColor(Color(red: 0.5, green: 0.5, blue: 0.5))
                                         
                                         Text("사진 추가하기")
-                                            .font(.system(size: 16))
+                                            .font(.custom("MemomentKkukkukkR", size: 15))
                                             .foregroundColor(Color(red: 0.5, green: 0.5, blue: 0.5))
                                     }
                                     .frame(height: 200)
@@ -98,14 +107,48 @@ struct AddPlantView: View {
                             }
                         }
                         
+                        // 식물 AI 인식 로딩
+                        if isClassifying {
+                            HStack(spacing: 8) {
+                                ProgressView()
+                                    .tint(Color(red: 0.55, green: 0.65, blue: 0.55))
+                                Text("단비가 식물을 살펴보는 중...")
+                                    .font(.custom("MemomentKkukkukkR", size: 14))
+                                    .foregroundColor(Color(red: 0.5, green: 0.5, blue: 0.5))
+                            }
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 8)
+                        }
+
+                        // 식물 AI 인식 결과
+                        if showRecognitionResult, let result = recognitionResult {
+                            PlantRecognitionResultView(
+                                result: result,
+                                onConfirm: { koreanName in
+                                    species = koreanName
+                                    withAnimation(.easeOut(duration: 0.2)) {
+                                        showRecognitionResult = false
+                                    }
+                                    fetchPlantCareInfo(for: koreanName)
+                                },
+                                onDismiss: {
+                                    withAnimation(.easeOut(duration: 0.2)) {
+                                        showRecognitionResult = false
+                                    }
+                                    isSpeciesFieldFocused = true
+                                }
+                            )
+                            .transition(.opacity.combined(with: .move(edge: .top)))
+                        }
+
                         // Plant Name
                         VStack(alignment: .leading, spacing: 8) {
                             Text("식물 이름")
-                                .font(.system(size: 16))
+                                .font(.custom("MemomentKkukkukkR", size: 15))
                                 .foregroundColor(Color(red: 0.5, green: 0.5, blue: 0.5))
-                            
+
                             TextField("ex. 난의 첫 몬스테라", text: $plantName)
-                                .font(.system(size: 18))
+                                .font(.custom("MemomentKkukkukkR", size: 16))
                                 .foregroundColor(.black)
                                 .padding()
                                 .background(Color(red: 0.96, green: 0.96, blue: 0.96))
@@ -119,11 +162,11 @@ struct AddPlantView: View {
                         // Species
                         VStack(alignment: .leading, spacing: 8) {
                             Text("식물 종류")
-                                .font(.system(size: 16))
+                                .font(.custom("MemomentKkukkukkR", size: 15))
                                 .foregroundColor(Color(red: 0.5, green: 0.5, blue: 0.5))
-                            
-                            TextField("ex. Monstera Deliciosa", text: $species)
-                                .font(.system(size: 18))
+
+                            TextField("ex. 몬스테라", text: $species)
+                                .font(.custom("MemomentKkukkukkR", size: 16))
                                 .foregroundColor(.black)
                                 .padding()
                                 .background(Color(red: 0.96, green: 0.96, blue: 0.96))
@@ -132,26 +175,78 @@ struct AddPlantView: View {
                                     RoundedRectangle(cornerRadius: 12)
                                         .stroke(Color.clear, lineWidth: 0)
                                 )
+                                .focused($isSpeciesFieldFocused)
                         }
                         
                         // Watering Frequency
                         VStack(alignment: .leading, spacing: 10) {
                             HStack {
                                 Text("물 주기")
-                                    .font(.system(size: 16))
+                                    .font(.custom("MemomentKkukkukkR", size: 15))
                                     .foregroundColor(Color(red: 0.5, green: 0.5, blue: 0.5))
-                                
+
                                 Spacer()
-                                
-                                Text("오늘부터 매 \(Int(wateringInterval)) 일마다")
-                                    .font(.system(size: 14, weight: .regular))
+
+                                Text("오늘부터 매 \(Int(wateringInterval))일마다")
+                                    .font(.custom("MemomentKkukkukkR", size: 14))
                                     .foregroundColor(.black)
                                     .frame(width: 150, alignment: .trailing)
                             }
                            
                             Slider(value: $wateringInterval, in: 1...90, step: 1)
                                 .accentColor(Color(red: 0.55, green: 0.65, blue: 0.55))
-                            
+
+                        }
+
+                        // 관리법 로딩 / 결과 없음
+                        if isLoadingCareInfo {
+                            HStack(spacing: 8) {
+                                ProgressView()
+                                    .tint(Color(red: 0.55, green: 0.65, blue: 0.55))
+                                Text("관리법을 찾고 있어요...")
+                                    .font(.custom("MemomentKkukkukkR", size: 14))
+                                    .foregroundColor(Color(red: 0.5, green: 0.5, blue: 0.5))
+                            }
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 4)
+                        } else if careInfoNotFound {
+                            HStack(spacing: 6) {
+                                Image(systemName: "info.circle")
+                                    .font(.system(size: 14))
+                                    .foregroundColor(Color(red: 0.7, green: 0.65, blue: 0.5))
+                                Text("관리법을 찾지 못했어요. 직접 입력해주세요!")
+                                    .font(.custom("MemomentKkukkukkR", size: 13))
+                                    .foregroundColor(Color(red: 0.7, green: 0.65, blue: 0.5))
+                            }
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 4)
+                            .transition(.opacity)
+                        }
+
+                        // Note
+                        VStack(alignment: .leading, spacing: 8) {
+                            Text("비고")
+                                .font(.custom("MemomentKkukkukkR", size: 15))
+                                .foregroundColor(Color(red: 0.5, green: 0.5, blue: 0.5))
+
+                            TextEditor(text: $note)
+                                .font(.custom("MemomentKkukkukkR", size: 15))
+                                .foregroundColor(.black)
+                                .frame(minHeight: 100)
+                                .padding(12)
+                                .scrollContentBackground(.hidden)
+                                .background(Color(red: 0.96, green: 0.96, blue: 0.96))
+                                .cornerRadius(12)
+                                .overlay(alignment: .topLeading) {
+                                    if note.isEmpty {
+                                        Text("관리법, 특이사항 등을 자유롭게 메모하세요")
+                                            .font(.custom("MemomentKkukkukkR", size: 15))
+                                            .foregroundColor(Color(red: 0.75, green: 0.75, blue: 0.75))
+                                            .padding(.horizontal, 16)
+                                            .padding(.vertical, 20)
+                                            .allowsHitTesting(false)
+                                    }
+                                }
                         }
                     }
                     .padding(.horizontal, 24)
@@ -173,7 +268,7 @@ struct AddPlantView: View {
                     }
                 }) {
                     Text(isEditMode ? "수정 완료" : "+ 추가")
-                        .font(.system(size: 18, weight: .semibold))
+                        .font(.custom("MemomentKkukkukkR", size: 18))
                         .foregroundColor(.white)
                         .frame(maxWidth: .infinity)
                         .frame(height: 56)
@@ -223,6 +318,20 @@ struct AddPlantView: View {
                 print("🚫 광고 보기 취소")
             }
         )
+        .onChange(of: selectedImage) { oldImage, newImage in
+            guard let image = newImage, !isEditMode else { return }
+            // 수정 모드가 아닐 때만 AI 인식 실행
+            isClassifying = true
+            showRecognitionResult = false
+
+            PlantClassifier.shared.classify(image: image) { result in
+                recognitionResult = result
+                isClassifying = false
+                withAnimation(.easeOut(duration: 0.3)) {
+                    showRecognitionResult = true
+                }
+            }
+        }
         .onAppear {
             // 보상형 광고 미리 로드
             RewardedAdManager.shared.loadAd()
@@ -232,6 +341,7 @@ struct AddPlantView: View {
                 plantName = plant.name
                 species = plant.scientificName
                 wateringInterval = Double(plant.wateringInterval)
+                note = plant.note
                 if let imageData = plant.imageData {
                     selectedImage = UIImage(data: imageData)
                 }
@@ -251,7 +361,8 @@ struct AddPlantView: View {
             lastWatered: Date(),
             wateringInterval: Int(wateringInterval),
             imageData: imageData,
-            sortOrder: plants.count
+            sortOrder: plants.count,
+            note: note
         )
 
         modelContext.insert(newPlant)
@@ -275,6 +386,7 @@ struct AddPlantView: View {
         plant.scientificName = species
         plant.wateringInterval = Int(wateringInterval)
         plant.imageData = imageData
+        plant.note = note
 
         try? modelContext.save()
 
@@ -284,6 +396,57 @@ struct AddPlantView: View {
         dismiss()
     }
     
+    private func fetchPlantCareInfo(for plantName: String) {
+        guard PerenualService.shared.isAPIKeyConfigured else { return }
+
+        isLoadingCareInfo = true
+        careInfoNotFound = false
+
+        // 한국어 이름 → Perenual 검색용 영어 일반명으로 변환
+        let searchName: String
+        if let commonName = PlantKeywordDictionary.perenualSearchName[plantName] {
+            searchName = commonName
+        } else if let plant = PlantKeywordDictionary.commonHouseplants.first(where: { $0.korean == plantName }) {
+            searchName = plant.english
+        } else {
+            searchName = plantName
+        }
+
+        // 학명을 fallback 검색어로 준비 (commonHouseplants의 english가 학명인 경우)
+        let fallbackName: String?
+        if let plant = PlantKeywordDictionary.commonHouseplants.first(where: { $0.korean == plantName }) {
+            // perenualSearchName과 다른 경우에만 fallback으로 사용
+            fallbackName = plant.english != searchName ? plant.english : nil
+        } else {
+            fallbackName = nil
+        }
+
+        PerenualService.shared.searchPlantCare(name: searchName, fallbackName: fallbackName) { careInfo in
+            isLoadingCareInfo = false
+
+            guard let info = careInfo else {
+                withAnimation(.easeOut(duration: 0.2)) {
+                    careInfoNotFound = true
+                }
+                return
+            }
+
+            // 비고란에 관리법 자동 입력 (기존 내용이 없을 때만)
+            if note.isEmpty {
+                withAnimation(.easeOut(duration: 0.2)) {
+                    note = info.koreanCareNote
+                }
+            }
+
+            // 물주기 추천값 자동 설정 (기본값 7일일 때만)
+            if let days = info.recommendedWateringDays, wateringInterval == 7 {
+                withAnimation(.easeOut(duration: 0.2)) {
+                    wateringInterval = Double(days)
+                }
+            }
+        }
+    }
+
     private func showRewardedAd() {
         isLoadingAd = true
         

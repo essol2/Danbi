@@ -17,8 +17,9 @@ final class Plant {
     var wateringInterval: Int // days
     var imageData: Data?
     var sortOrder: Int = 0
+    var note: String = ""
 
-    init(name: String, scientificName: String, lastWatered: Date, wateringInterval: Int, imageData: Data? = nil, sortOrder: Int = 0) {
+    init(name: String, scientificName: String, lastWatered: Date, wateringInterval: Int, imageData: Data? = nil, sortOrder: Int = 0, note: String = "") {
         self.id = UUID()
         self.name = name
         self.scientificName = scientificName
@@ -26,6 +27,7 @@ final class Plant {
         self.wateringInterval = wateringInterval
         self.imageData = imageData
         self.sortOrder = sortOrder
+        self.note = note
     }
     
     // 물을 줘야 하는지 계산
