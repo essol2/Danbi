@@ -261,6 +261,7 @@ struct AddPlantView: View {
                     } else {
                         // 3개 이상일 때 광고 표시
                         if plants.count >= 3 {
+                            UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
                             showAdAlert = true
                         } else {
                             addPlant()
