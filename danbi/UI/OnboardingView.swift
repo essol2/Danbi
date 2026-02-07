@@ -80,7 +80,7 @@ struct OnboardingView: View {
                     dismiss()
                 }) {
                     Text("시작하기")
-                        .font(.system(size: 18, weight: .semibold))
+                        .font(.custom("MemomentKkukkukkR", size: 18))
                         .foregroundColor(.white)
                         .frame(maxWidth: .infinity)
                         .frame(height: 56)

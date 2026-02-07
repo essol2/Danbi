@@ -118,7 +118,7 @@ struct PlantRecognitionResultView: View {
                     .foregroundColor(Color(red: 0.5, green: 0.5, blue: 0.5))
 
                 TextField("식물 이름 검색", text: $searchText)
-                    .font(.system(size: 16))
+                    .font(.custom("MemomentKkukkukkR", size: 16))
                     .foregroundColor(.black)
             }
             .padding(.horizontal, 16)
@@ -139,7 +139,7 @@ struct PlantRecognitionResultView: View {
                                 Spacer()
 
                                 Text(plant.english)
-                                    .font(.system(size: 13))
+                                    .font(.custom("MemomentKkukkukkR", size: 13))
                                     .foregroundColor(Color(red: 0.5, green: 0.5, blue: 0.5))
                                     .lineLimit(1)
                             }

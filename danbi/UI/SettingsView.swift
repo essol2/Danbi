@@ -82,7 +82,7 @@ struct SettingsView: View {
                     // 알림 섹션
                     VStack(alignment: .leading, spacing: 8) {
                         Text("알림")
-                            .font(.system(size: 14, weight: .medium))
+                            .font(.custom("MemomentKkukkukkR", size: 14))
                             .foregroundColor(Color(red: 0.6, green: 0.6, blue: 0.6))
                             .padding(.horizontal, 24)
                         
@@ -93,7 +93,7 @@ struct SettingsView: View {
                                 .frame(width: 40)
                             
                             Text("물주기 알림")
-                                .font(.system(size: 16))
+                                .font(.custom("MemomentKkukkukkR", size: 16))
                                 .foregroundColor(.black)
                             
                             Spacer()
@@ -152,7 +152,7 @@ struct SettingsView: View {
                     // 지원 섹션
                     VStack(alignment: .leading, spacing: 8) {
                         Text("지원")
-                            .font(.system(size: 14, weight: .medium))
+                            .font(.custom("MemomentKkukkukkR", size: 14))
                             .foregroundColor(Color(red: 0.6, green: 0.6, blue: 0.6))
                             .padding(.horizontal, 24)
                         
@@ -169,7 +169,7 @@ struct SettingsView: View {
                                         .frame(width: 40)
                                     
                                     Text("개발자에게 의견 보내기")
-                                        .font(.system(size: 16))
+                                        .font(.custom("MemomentKkukkukkR", size: 16))
                                         .foregroundColor(.black)
                                     
                                     Spacer()
@@ -198,7 +198,7 @@ struct SettingsView: View {
                                         .frame(width: 40)
                                     
                                     Text("Danbi 정보")
-                                        .font(.system(size: 16))
+                                        .font(.custom("MemomentKkukkukkR", size: 16))
                                         .foregroundColor(.black)
                                     
                                     Spacer()
@@ -218,13 +218,13 @@ struct SettingsView: View {
                     // 앱 버전
                     HStack {
                         Text("앱 버전")
-                            .font(.system(size: 15))
+                            .font(.custom("MemomentKkukkukkR", size: 15))
                             .foregroundColor(Color(red: 0.6, green: 0.6, blue: 0.6))
                         
                         Spacer()
                         
                         Text("1.0.0")
-                            .font(.system(size: 15))
+                            .font(.custom("MemomentKkukkukkR", size: 15))
                             .foregroundColor(Color(red: 0.6, green: 0.6, blue: 0.6))
                     }
                     .padding(.horizontal, 24)
@@ -236,7 +236,7 @@ struct SettingsView: View {
                         
                         HStack(spacing: 4) {
                             Text("Made with")
-                                .font(.system(size: 14))
+                                .font(.custom("MemomentKkukkukkR", size: 14))
                                 .foregroundColor(Color(red: 0.7, green: 0.7, blue: 0.7))
                             
                             Image(systemName: "leaf.fill")
@@ -244,7 +244,7 @@ struct SettingsView: View {
                                 .foregroundColor(Color(red: 0.55, green: 0.65, blue: 0.55))
                             
                             Text("by Danbi Team")
-                                .font(.system(size: 14))
+                                .font(.custom("MemomentKkukkukkR", size: 14))
                                 .foregroundColor(Color(red: 0.7, green: 0.7, blue: 0.7))
                         }
                         

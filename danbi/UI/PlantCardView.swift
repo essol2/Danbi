@@ -42,11 +42,11 @@ struct PlantCardView: View {
                 HStack(alignment: .top) {
                     VStack(alignment: .leading, spacing: 4) {
                         Text(plant.name)
-                            .font(.system(size: 24, weight: .semibold))
+                            .font(.custom("MemomentKkukkukkR", size: 24))
                             .foregroundColor(.black)
                         
                         Text(plant.scientificName)
-                            .font(.system(size: 16))
+                            .font(.custom("MemomentKkukkukkR", size: 16))
                             .foregroundColor(Color(red: 0.5, green: 0.5, blue: 0.5))
                     }
                     
@@ -100,14 +100,14 @@ struct PlantCardView: View {
                 // Last watered info
                 HStack {
                     Text("\(plant.daysSinceWatered)일 전에 물을 줬어요!")
-                        .font(.system(size: 15))
+                        .font(.custom("MemomentKkukkukkR", size: 15))
                         .foregroundColor(Color(red: 0.5, green: 0.5, blue: 0.5))
                     
                     Spacer()
                     
                     if plant.needsWater {
                         Text("오늘 물주는 날!")
-                            .font(.system(size: 15, weight: .medium))
+                            .font(.custom("MemomentKkukkukkR", size: 15))
                             .foregroundColor(Color(red: 0.65, green: 0.72, blue: 0.65))
                     } else {
 //                        let daysUntilWater = plant.wateringInterval - plant.daysSinceWatered
@@ -115,7 +115,7 @@ struct PlantCardView: View {
 //                            .font(.system(size: 15, weight: .medium))
 //                            .foregroundColor(Color(red: 0.5, green: 0.5, blue: 0.5))
                         Text("\(plant.wateringInterval)일마다")
-                            .font(.system(size: 15, weight: .medium))
+                            .font(.custom("MemomentKkukkukkR", size: 15))
                             .foregroundColor(Color(red: 0.5, green: 0.5, blue: 0.5))
                     }
                 }

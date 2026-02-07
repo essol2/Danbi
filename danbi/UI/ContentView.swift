@@ -51,7 +51,7 @@ struct ContentView: View {
                                     .foregroundColor(textColor)
                                 
                                 Text(message)
-                                    .font(.system(size: 16))
+                                    .font(.custom("MemomentKkukkukkR", size: 16))
                                     .foregroundColor(textColor)
                                 
                                 Spacer()
@@ -113,7 +113,7 @@ struct ContentView: View {
                     showingAddPlant = true
                 }) {
                     Text("반려식물 추가하기")
-                        .font(.system(size: 18, weight: .semibold))
+                        .font(.custom("MemomentKkukkukkR", size: 18))
                         .foregroundColor(.white)
                         .frame(maxWidth: .infinity)
                         .frame(height: 56)
