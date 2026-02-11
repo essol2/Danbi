@@ -24,7 +24,7 @@ struct CustomAlertView: View {
         title: String,
         message: String,
         primaryButtonTitle: String,
-        secondaryButtonTitle: String? = "취소",
+        secondaryButtonTitle: String? = String(localized: "취소"),
         primaryAction: @escaping () -> Void,
         secondaryAction: (() -> Void)? = nil
     ) {
@@ -141,7 +141,7 @@ extension View {
         title: String,
         message: String,
         primaryButtonTitle: String,
-        secondaryButtonTitle: String? = "취소",
+        secondaryButtonTitle: String? = String(localized: "취소"),
         primaryAction: @escaping () -> Void,
         secondaryAction: (() -> Void)? = nil
     ) -> some View {

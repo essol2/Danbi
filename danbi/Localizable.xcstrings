@@ -1,0 +1,718 @@
+{
+  "sourceLanguage" : "ko",
+  "strings" : {
+    "" : {
+
+    },
+    "%@에게 단비를 내려주세요" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Time to water %@"
+          }
+        }
+      }
+    },
+    "%lld일 전에 물을 줬어요!" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Watered %lld days ago!"
+          }
+        }
+      }
+    },
+    "%lld일마다" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Every %lld days"
+          }
+        }
+      }
+    },
+    "+ 추가" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "+ Add"
+          }
+        }
+      }
+    },
+    "💧 물 줄 시간이에요!" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "💧 Time to water!"
+          }
+        }
+      }
+    },
+    "3일 전에 물을 줬어요!" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Watered 3 days ago!"
+          }
+        }
+      }
+    },
+    "7일마다" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Every 7 days"
+          }
+        }
+      }
+    },
+    "by Danbi Team" : {
+
+    },
+    "Danbi 정보" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "About Danbi"
+          }
+        }
+      }
+    },
+    "ex. 나의 첫 몬스테라" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "e.g. My First Monstera"
+          }
+        }
+      }
+    },
+    "ex. 몬스테라" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "e.g. Monstera"
+          }
+        }
+      }
+    },
+    "Made with" : {
+
+    },
+    "Monstera deliciosa" : {
+
+    },
+    "개발자에게 의견 보내기" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Send Feedback"
+          }
+        }
+      }
+    },
+    "갤러리" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gallery"
+          }
+        }
+      }
+    },
+    "검색 결과가 없어요" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No results found"
+          }
+        }
+      }
+    },
+    "관리법, 특이사항 등을 자유롭게 메모하세요" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Write notes about care tips, special conditions, etc."
+          }
+        }
+      }
+    },
+    "관리법: 7일마다 물주기" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Care: Water every 7 days"
+          }
+        }
+      }
+    },
+    "관리법을 찾고 있어요..." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Looking up care info..."
+          }
+        }
+      }
+    },
+    "관리법을 찾지 못했어요. 직접 입력해주세요!" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Couldn't find care info. Please enter manually!"
+          }
+        }
+      }
+    },
+    "광고 보기" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Watch Ad"
+          }
+        }
+      }
+    },
+    "나의 반려식물에게 내리는 단비" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A refreshing rain for your beloved plants"
+          }
+        }
+      }
+    },
+    "네, 맞아요!" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yes, that's right!"
+          }
+        }
+      }
+    },
+    "다음" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Next"
+          }
+        }
+      }
+    },
+    "단비" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Danbi"
+          }
+        }
+      }
+    },
+    "단비가 식물을 살펴보는 중..." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Danbi is examining the plant..."
+          }
+        }
+      }
+    },
+    "더 많은 식물 보기" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show more plants"
+          }
+        }
+      }
+    },
+    "몬스테라" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Monstera"
+          }
+        }
+      }
+    },
+    "무료로 3개까지 등록할 수 있어요.\n추가 등록을 위해 짧은 광고를 시청해주세요!" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You can register up to 3 plants for free.\nPlease watch a short ad to add more!"
+          }
+        }
+      }
+    },
+    "물 주기" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Watering Schedule"
+          }
+        }
+      }
+    },
+    "물주기 알림" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Watering Reminders"
+          }
+        }
+      }
+    },
+    "반려 식물 수정" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Edit Plant"
+          }
+        }
+      }
+    },
+    "반려 식물 추가" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add Plant"
+          }
+        }
+      }
+    },
+    "반려식물 추가하기" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add Plant"
+          }
+        }
+      }
+    },
+    "비고" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notes"
+          }
+        }
+      }
+    },
+    "사진 선택" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose Photo"
+          }
+        }
+      }
+    },
+    "사진 추가하기" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add Photo"
+          }
+        }
+      }
+    },
+    "사진으로 식물을 알아보세요" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Identify plants with a photo"
+          }
+        }
+      }
+    },
+    "사진을 가져올 방법을 선택하세요" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose how to add a photo"
+          }
+        }
+      }
+    },
+    "삭제" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete"
+          }
+        }
+      }
+    },
+    "수정" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Edit"
+          }
+        }
+      }
+    },
+    "수정 완료" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save Changes"
+          }
+        }
+      }
+    },
+    "시작하기" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Get Started"
+          }
+        }
+      }
+    },
+    "식물 등록 한도" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plant Registration Limit"
+          }
+        }
+      }
+    },
+    "식물 사진" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plant Photo"
+          }
+        }
+      }
+    },
+    "식물 사진을 찍으면\n종류와 관리법을 알려드려요" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Take a photo and we'll identify\nthe species and care tips"
+          }
+        }
+      }
+    },
+    "식물 이름" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plant Name"
+          }
+        }
+      }
+    },
+    "식물 이름 검색" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search plant name"
+          }
+        }
+      }
+    },
+    "식물 종류" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plant Species"
+          }
+        }
+      }
+    },
+    "식물 종류를 직접 알려주실래요?" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Could you tell me the plant species?"
+          }
+        }
+      }
+    },
+    "식물 카드를 오른쪽으로 밀면\n수정할 수 있어요" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Swipe a plant card right\nto edit its details"
+          }
+        }
+      }
+    },
+    "식물 카드를 왼쪽으로 밀면\n삭제할 수 있어요" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Swipe a plant card left\nto remove it"
+          }
+        }
+      }
+    },
+    "식물을 추가해보세요" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add your plants"
+          }
+        }
+      }
+    },
+    "식물이 보여요!\n어떤 식물인지 알려주세요" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "I see a plant!\nPlease tell me what it is"
+          }
+        }
+      }
+    },
+    "아니에요, 직접 입력할게요" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No, I'll enter it myself"
+          }
+        }
+      }
+    },
+    "아래 버튼을 눌러\n반려식물을 등록하세요" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tap the button below\nto register your plant"
+          }
+        }
+      }
+    },
+    "아직 반려식물이 없어요" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No plants yet"
+          }
+        }
+      }
+    },
+    "알겠어요!" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Got it!"
+          }
+        }
+      }
+    },
+    "알림" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notifications"
+          }
+        }
+      }
+    },
+    "앱 버전" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "App Version"
+          }
+        }
+      }
+    },
+    "오늘 물주는 날!" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Water today!"
+          }
+        }
+      }
+    },
+    "오늘부터 매 %lld일마다" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Every %lld days from today"
+          }
+        }
+      }
+    },
+    "오늘은 %lld번 단비를 내려야해요!" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld plants need watering today!"
+          }
+        }
+      }
+    },
+    "오늘은 물 줄 식물이 없어요!" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No plants need watering today!"
+          }
+        }
+      }
+    },
+    "오른쪽으로 밀어 수정하기" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Swipe right to edit"
+          }
+        }
+      }
+    },
+    "왼쪽으로 밀어 삭제하기" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Swipe left to delete"
+          }
+        }
+      }
+    },
+    "지원" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Support"
+          }
+        }
+      }
+    },
+    "직접 입력할게요" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "I'll enter it myself"
+          }
+        }
+      }
+    },
+    "처음 보는 친구라\n단비가 당황했어요!" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Danbi doesn't recognize\nthis one!"
+          }
+        }
+      }
+    },
+    "첫 번째 식물을 추가해보세요" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add your first plant"
+          }
+        }
+      }
+    },
+    "취소" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancel"
+          }
+        }
+      }
+    },
+    "카메라" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Camera"
+          }
+        }
+      }
+    },
+    "혹시 %@인가요?\n단비가 찾아냈어요!" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Is this %@?\nDanbi found it!"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}

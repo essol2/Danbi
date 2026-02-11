@@ -50,7 +50,7 @@ struct AddPlantView: View {
             VStack(spacing: 0) {
                 // Header
                 HStack {
-                    Text(isEditMode ? "반려 식물 수정" : "반려 식물 추가")
+                    Text(isEditMode ? String(localized: "반려 식물 수정") : String(localized: "반려 식물 추가"))
                         .font(.custom("MemomentKkukkukkR", size: 24))
                         .foregroundColor(.black)
                     
@@ -268,7 +268,7 @@ struct AddPlantView: View {
                         }
                     }
                 }) {
-                    Text(isEditMode ? "수정 완료" : "+ 추가")
+                    Text(isEditMode ? String(localized: "수정 완료") : String(localized: "+ 추가"))
                         .font(.custom("MemomentKkukkukkR", size: 18))
                         .foregroundColor(.white)
                         .frame(maxWidth: .infinity)
@@ -308,10 +308,10 @@ struct AddPlantView: View {
         .customAlert(
             isPresented: $showAdAlert,
             icon: "play.circle.fill",
-            title: "식물 등록 한도",
-            message: "무료로 3개까지 등록할 수 있어요.\n추가 등록을 위해 짧은 광고를 시청해주세요!",
-            primaryButtonTitle: "광고 보기",
-            secondaryButtonTitle: "취소",
+            title: String(localized: "식물 등록 한도"),
+            message: String(localized: "무료로 3개까지 등록할 수 있어요.\n추가 등록을 위해 짧은 광고를 시청해주세요!"),
+            primaryButtonTitle: String(localized: "광고 보기"),
+            secondaryButtonTitle: String(localized: "취소"),
             primaryAction: {
                 showRewardedAd()
             },

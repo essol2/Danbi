@@ -223,7 +223,7 @@ struct SettingsView: View {
                         
                         Spacer()
                         
-                        Text("1.0.0")
+                        Text(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0.0")
                             .font(.custom("MemomentKkukkukkR", size: 15))
                             .foregroundColor(Color(red: 0.6, green: 0.6, blue: 0.6))
                     }

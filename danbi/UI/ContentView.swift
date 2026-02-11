@@ -42,8 +42,8 @@ struct ContentView: View {
                             
                             // Water notification banner
                             let (emoji, message, textColor, bgColor) = plantsNeedingWater > 0
-                            ? ("💧", "오늘은 \(plantsNeedingWater)번 단비를 내려야해요!", Color(red: 0.549, green: 0.608, blue: 0.647), Color(red: 0.549, green: 0.608, blue: 0.647).opacity(0.2))
-                            : ("☀️", "오늘은 물 줄 식물이 없어요!", Color(red: 0.780, green: 0.710, blue: 0.549), Color(red: 0.780, green: 0.710, blue: 0.549).opacity(0.2))
+                            ? ("💧", String(localized: "오늘은 \(plantsNeedingWater)번 단비를 내려야해요!"), Color(red: 0.549, green: 0.608, blue: 0.647), Color(red: 0.549, green: 0.608, blue: 0.647).opacity(0.2))
+                            : ("☀️", String(localized: "오늘은 물 줄 식물이 없어요!"), Color(red: 0.780, green: 0.710, blue: 0.549), Color(red: 0.780, green: 0.710, blue: 0.549).opacity(0.2))
                             
                             HStack(spacing: 12) {
                                 Text(emoji)

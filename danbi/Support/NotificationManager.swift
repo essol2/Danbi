@@ -74,8 +74,8 @@ class NotificationManager: ObservableObject {
 
         // 알림 내용 설정
         let content = UNMutableNotificationContent()
-        content.title = "💧 물 줄 시간이에요!"
-        content.body = "\(plant.name)에게 단비를 내려주세요"
+        content.title = String(localized: "💧 물 줄 시간이에요!")
+        content.body = String(localized: "\(plant.name)에게 단비를 내려주세요")
         content.sound = .default
         content.badge = 1
 

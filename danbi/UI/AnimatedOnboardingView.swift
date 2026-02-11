@@ -28,10 +28,12 @@ struct AnimatedOnboardingView: View {
                 TabView(selection: $currentPage) {
                     OnboardingAddPlantPage()
                         .tag(0)
-                    OnboardingEditSwipePage()
+                    OnboardingPhotoRecognitionPage()
                         .tag(1)
-                    OnboardingDeleteSwipePage()
+                    OnboardingEditSwipePage()
                         .tag(2)
+                    OnboardingDeleteSwipePage()
+                        .tag(3)
                 }
                 .tabViewStyle(.page(indexDisplayMode: .never))
                 .animation(.easeInOut(duration: 0.3), value: currentPage)
@@ -40,7 +42,7 @@ struct AnimatedOnboardingView: View {
                 VStack(spacing: 24) {
                     // 페이지 인디케이터
                     HStack(spacing: 8) {
-                        ForEach(0..<3, id: \.self) { index in
+                        ForEach(0..<4, id: \.self) { index in
                             Circle()
                                 .fill(currentPage == index ? primaryGreen : primaryGreen.opacity(0.3))
                                 .frame(width: 8, height: 8)
@@ -50,7 +52,7 @@ struct AnimatedOnboardingView: View {
 
                     // 다음 / 시작하기 버튼
                     Button(action: {
-                        if currentPage < 2 {
+                        if currentPage < 3 {
                             withAnimation(.easeInOut(duration: 0.3)) {
                                 currentPage += 1
                             }
@@ -59,7 +61,7 @@ struct AnimatedOnboardingView: View {
                             dismiss()
                         }
                     }) {
-                        Text(currentPage < 2 ? "다음" : "시작하기")
+                        Text(currentPage < 3 ? String(localized: "다음") : String(localized: "시작하기"))
                             .font(.custom(customFont, size: 18))
                             .foregroundColor(.white)
                             .frame(maxWidth: .infinity)
@@ -179,7 +181,165 @@ private struct OnboardingAddPlantPage: View {
     }
 }
 
-// MARK: - Page 2: 우측 스와이프 수정
+// MARK: - Page 2: 사진으로 식물 종류 찾기
+private struct OnboardingPhotoRecognitionPage: View {
+    @State private var isVisible = false
+    @State private var showFlash = false
+    @State private var showResult = false
+    @State private var resultOpacity: Double = 0
+
+    var body: some View {
+        VStack(spacing: 0) {
+            Spacer()
+
+            // 제목
+            Text("사진으로 식물을 알아보세요")
+                .font(.custom(customFont, size: 28))
+                .foregroundColor(.black)
+
+            Text("식물 사진을 찍으면\n종류와 관리법을 알려드려요")
+                .font(.custom(customFont, size: 16))
+                .foregroundColor(subtitleGray)
+                .multilineTextAlignment(.center)
+                .padding(.top, 12)
+
+            Spacer().frame(height: 40)
+
+            // 모의 사진 등록 UI
+            ZStack {
+                // 사진 영역
+                VStack(spacing: 0) {
+                    // 카메라 영역
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 12)
+                            .fill(Color(red: 0.96, green: 0.96, blue: 0.96))
+                            .frame(height: 180)
+
+                        VStack(spacing: 12) {
+                            Image(systemName: "camera.fill")
+                                .font(.system(size: 40))
+                                .foregroundColor(subtitleGray)
+
+                            Text("사진 추가하기")
+                                .font(.custom(customFont, size: 16))
+                                .foregroundColor(subtitleGray)
+                        }
+
+                        // 플래시 효과
+                        if showFlash {
+                            RoundedRectangle(cornerRadius: 12)
+                                .fill(Color.white)
+                                .frame(height: 180)
+                                .opacity(showFlash ? 0.8 : 0)
+                        }
+                    }
+
+                    // 인식 결과 영역
+                    if showResult {
+                        HStack(spacing: 12) {
+                            // 로딩 → 결과 전환
+                            Image(systemName: "leaf.circle.fill")
+                                .font(.system(size: 32))
+                                .foregroundColor(primaryGreen)
+
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text("몬스테라")
+                                    .font(.custom(customFont, size: 18))
+                                    .foregroundColor(.black)
+                                Text("관리법: 7일마다 물주기")
+                                    .font(.custom(customFont, size: 14))
+                                    .foregroundColor(subtitleGray)
+                            }
+
+                            Spacer()
+
+                            Image(systemName: "checkmark.circle.fill")
+                                .font(.system(size: 24))
+                                .foregroundColor(primaryGreen)
+                        }
+                        .padding(16)
+                        .background(Color.white)
+                        .cornerRadius(12)
+                        .shadow(color: Color.black.opacity(0.06), radius: 4, x: 0, y: 2)
+                        .padding(.top, 12)
+                        .opacity(resultOpacity)
+                    }
+                }
+                .padding(.horizontal, 24)
+
+                // 손가락 아이콘 (사진 영역 탭)
+                if !showResult {
+                    Image(systemName: "hand.point.up.fill")
+                        .font(.system(size: 36))
+                        .foregroundColor(.black.opacity(0.55))
+                        .offset(x: 20, y: 20)
+                }
+            }
+
+            Spacer()
+            Spacer()
+        }
+        .onAppear {
+            isVisible = true
+            startAnimation()
+        }
+        .onDisappear {
+            isVisible = false
+        }
+    }
+
+    private func startAnimation() {
+        guard isVisible else { return }
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            performCycle()
+        }
+    }
+
+    private func performCycle() {
+        guard isVisible else { return }
+
+        // 리셋
+        showFlash = false
+        showResult = false
+        resultOpacity = 0
+
+        // Phase 1: 플래시 (사진 촬영 시뮬레이션)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
+            guard isVisible else { return }
+            withAnimation(.easeOut(duration: 0.15)) {
+                showFlash = true
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                withAnimation(.easeOut(duration: 0.3)) {
+                    showFlash = false
+                }
+            }
+        }
+
+        // Phase 2: 결과 표시
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+            guard isVisible else { return }
+            showResult = true
+            withAnimation(.easeOut(duration: 0.5)) {
+                resultOpacity = 1.0
+            }
+        }
+
+        // Phase 3: 유지 후 반복
+        DispatchQueue.main.asyncAfter(deadline: .now() + 4.0) {
+            guard isVisible else { return }
+            withAnimation(.easeOut(duration: 0.3)) {
+                resultOpacity = 0
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                performCycle()
+            }
+        }
+    }
+}
+
+// MARK: - Page 3: 우측 스와이프 수정
 private struct OnboardingEditSwipePage: View {
     @State private var swipeOffset: CGFloat = 0
     @State private var handOffset: CGFloat = 0
@@ -281,7 +441,7 @@ private struct OnboardingEditSwipePage: View {
     }
 }
 
-// MARK: - Page 3: 좌측 스와이프 삭제
+// MARK: - Page 4: 좌측 스와이프 삭제
 private struct OnboardingDeleteSwipePage: View {
     @State private var swipeOffset: CGFloat = 0
     @State private var handOffset: CGFloat = 0
