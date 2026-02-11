@@ -441,7 +441,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2.0;
+				MARKETING_VERSION = 1.3.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.plant.danbi;
 				PRODUCT_NAME = danbi;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -478,7 +478,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2.0;
+				MARKETING_VERSION = 1.3.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.plant.danbi;
 				PRODUCT_NAME = danbi;
 				PROVISIONING_PROFILE_SPECIFIER = "";
