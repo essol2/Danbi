@@ -103,7 +103,7 @@ struct danbiApp: App {
                             clearBadge()
                         }
                         .fullScreenCover(isPresented: $showOnboarding) {
-                            OnboardingView(hasSeenOnboarding: $hasSeenOnboarding)
+                            AnimatedOnboardingView(hasSeenOnboarding: $hasSeenOnboarding)
                         }
                         .transition(.opacity)
                 } else {

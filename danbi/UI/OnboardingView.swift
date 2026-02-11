@@ -7,6 +7,8 @@
 
 import SwiftUI
 
+// MARK: - 기존 정적 온보딩 (AnimatedOnboardingView로 대체됨)
+/*
 struct OnboardingView: View {
     @Binding var hasSeenOnboarding: Bool
     @Environment(\.dismiss) private var dismiss
@@ -124,3 +126,4 @@ struct OnboardingFeatureRow: View {
         }
     }
 }
+*/
