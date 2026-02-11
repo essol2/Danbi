@@ -147,7 +147,7 @@ struct AddPlantView: View {
                                 .font(.custom("MemomentKkukkukkR", size: 15))
                                 .foregroundColor(Color(red: 0.5, green: 0.5, blue: 0.5))
 
-                            TextField("ex. 난의 첫 몬스테라", text: $plantName)
+                            TextField("ex. 나의 첫 몬스테라", text: $plantName)
                                 .font(.custom("MemomentKkukkukkR", size: 16))
                                 .foregroundColor(.black)
                                 .padding()
